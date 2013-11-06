@@ -7,6 +7,7 @@
 		private $gateway_url = NULL;
 		private $message_class = NULL;
 		private $message_keys = array();
+		private $message_transation = NULL;
 		private $sender_name = NULL;
 		private $sender_pass = NULL;
 		private $sender_email = NULL;
@@ -22,14 +23,7 @@
 			$this->gateway_test = (!$live_run);
 		}
 
-		public function gateway_url_set($url) {
-			$this->gateway_url = $url;
-		}
-
-		public function gateway_url_get() {
-			if ($this->gateway_url !== NULL) {
-				return $this->gateway_url;
-			}
+		public function submission_url_get() {
 			return ($this->gateway_live ? 'https://secure.gateway.gov.uk/submission' : 'https://secure.dev.gateway.gov.uk/submission');
 		}
 
@@ -53,6 +47,7 @@
 			// Setup message
 
 				$this->message_class = $request->message_class_get();
+				$this->gateway_url = $this->submission_url_get();
 
 				$message = new hmrc_gateway_message();
 				$message->message_qualifier_set('request');
@@ -77,9 +72,8 @@
 					return array(
 							'class' => $this->message_class,
 							'correlation' => strval($this->response_object->Header->MessageDetails->CorrelationID),
-							'transaction' => 'TODO',
+							'transaction' => $this->message_transation, // Node is blank in response for some reason.
 							'endpoint' => strval($this->response_object->Header->MessageDetails->ResponseEndPoint),
-							'interval' => $interval,
 							'timeout' => (time() + $interval),
 							'status' => NULL,
 						);
@@ -98,8 +92,9 @@
 			// Setup message
 
 				$this->message_class = $message_class;
+				$this->gateway_url = $this->submission_url_get();
 
-				$body_xml = ''; // '<IncludeIdentifiers>1</IncludeIdentifiers>'
+				$body_xml = ''; // or could be '<IncludeIdentifiers>1</IncludeIdentifiers>'
 
 				$message = new hmrc_gateway_message();
 				$message->message_qualifier_set('request');
@@ -126,7 +121,6 @@
 								'correlation' => strval($request->CorrelationID),
 								'transaction' => strval($request->TransactionID),
 								'endpoint' => strval($this->response_object->Header->MessageDetails->ResponseEndPoint),
-								'interval' => 0,
 								'timeout' => time(),
 								'status' => strval($request->Status),
 							);
@@ -156,6 +150,7 @@
 			// Setup message
 
 				$this->message_class = $request['class'];
+				$this->gateway_url = $request['endpoint'];
 
 				$message = new hmrc_gateway_message();
 				$message->message_qualifier_set('poll');
@@ -168,35 +163,53 @@
 				$this->_send($message);
 
 			//--------------------------------------------------
-			// Result
+			// Validation
 
 				if (isset($this->response_object->Header->MessageDetails->Qualifier)) {
+					$qualifier = strval($this->response_object->Header->MessageDetails->Qualifier);
+				} else {
+					exit_with_error('Invalid response from HMRC', $this->response_string);
+				}
 
-					if (strval($this->response_object->Header->MessageDetails->CorrelationID) != $request['correlation']) {
-						exit_with_error('Did not delete correlation "' . $request['correlation'] . '"', $this->response_string);
-					}
+				if (strval($this->response_object->Header->MessageDetails->CorrelationID) != $request['correlation']) {
+					exit_with_error('Did not delete correlation "' . $request['correlation'] . '"', $this->response_string);
+				}
+
+			//--------------------------------------------------
+			// Result
+
+				if ($qualifier == 'error') {
+
+					exit_with_error('Error from gateway "' . $this->response_object->Body->ErrorResponse->Error->Text . '"', $this->response_string);
+
+				} else if ($qualifier == 'acknowledgement') {
 
 					$interval = strval($this->response_object->Header->MessageDetails->ResponseEndPoint['PollInterval']);
-
-if ($this->response_object->Header->MessageDetails->Qualifier == 'acknowledgement') {
-	$status = NULL;
-} else {
-	$status = 'done?';
-}
 
 					return array(
 							'class' => $this->message_class,
 							'correlation' => $request['correlation'],
 							'transaction' => strval($this->response_object->Header->MessageDetails->TransactionID),
 							'endpoint' => strval($this->response_object->Header->MessageDetails->ResponseEndPoint),
-							'interval' => $interval,
 							'timeout' => (time() + $interval),
-							'status' => $status,
+							'status' => NULL,
 						);
 
 				} else {
 
-					exit_with_error('Invalid response from HMRC', $this->response_string);
+					if (false) {
+						header('Content-Type: text/xml; charset=UTF-8');
+						echo $this->response_string;
+						exit();
+					} else {
+						$dom_sxe = dom_import_simplexml($this->response_object);
+						$dom = new DOMDocument('1.0');
+						$dom_sxe = $dom->importNode($dom_sxe, true);
+						$dom_sxe = $dom->appendChild($dom_sxe);
+						$dom->preserveWhiteSpace = false;
+						$dom->formatOutput = true;
+						echo $dom->saveXML() . "\n--------------------------------------------------\n\n";
+					}
 
 				}
 
@@ -208,6 +221,7 @@ if ($this->response_object->Header->MessageDetails->Qualifier == 'acknowledgemen
 			// Setup message
 
 				$this->message_class = $request['class'];
+				$this->gateway_url = $this->submission_url_get();
 
 				$message = new hmrc_gateway_message();
 				$message->message_qualifier_set('request');
@@ -238,12 +252,30 @@ if ($this->response_object->Header->MessageDetails->Qualifier == 'acknowledgemen
 		private function _send($message, $response_xsi = NULL) {
 
 			//--------------------------------------------------
-			// Additional properties
+			// Message details
 
-				$message_transation = str_replace('.', '', microtime(true)); // uniqid();
+				$this->message_transation = str_replace('.', '', microtime(true)); // uniqid();
 
 				$message->message_class_set($this->message_class_get());
-				$message->message_transation_set($message_transation);
+				$message->message_transation_set($this->message_transation);
+
+				$message_xml = $message->xml_get();
+
+			//--------------------------------------------------
+			// Validation
+
+				// $validate = new DOMDocument();
+				// $validate->loadXML($message_xml);
+
+				// $schema_path = dirname(__FILE__) . '/hmrc/validation-2013/envelope.xsd';
+
+				// if (!$validate->schemaValidate($schema_path)) {
+				// 	exit_with_error('Invalid request to HMRC', $message_xml);
+				// }
+				// exit('valid');
+
+				// if ($response_xsi) { // TODO
+				// }
 
 			//--------------------------------------------------
 			// Setup socket - similar to curl
@@ -255,18 +287,14 @@ if ($this->response_object->Header->MessageDetails->Qualifier == 'acknowledgemen
 			//--------------------------------------------------
 			// Send request
 
-				$message_xml = $message->xml_get();
-
-echo $message_xml . "\n\n";
-
-				$send_result = $socket->post($this->gateway_url_get(), $message_xml);
+				$send_result = $socket->post($this->gateway_url, $message_xml);
 
 				if (!$send_result) {
 					exit_with_error('Could not connect to HMRC', $socket->error_string_get());
 				}
 
 				if ($socket->response_code_get() != 200) {
-					exit_with_error('Invalid response from HMRC', $socket->response_full_get());
+					exit_with_error('Invalid HTTP response from HMRC', $socket->response_full_get());
 				}
 
 			//--------------------------------------------------
@@ -274,27 +302,6 @@ echo $message_xml . "\n\n";
 
 				$this->response_string = $socket->response_data_get();
 				$this->response_object = simplexml_load_string($this->response_string);
-
-$dom_sxe = dom_import_simplexml($this->response_object);
-$dom = new DOMDocument('1.0');
-$dom_sxe = $dom->importNode($dom_sxe, true);
-$dom_sxe = $dom->appendChild($dom_sxe);
-$dom->preserveWhiteSpace = false;
-$dom->formatOutput = true;
-echo $dom->saveXML() . "\n--------------------------------------------------\n\n";
-
-			//--------------------------------------------------
-			// Validation
-
-				if ($response_xsi) {
-					// TODO
-				}
-
-				// $validate = new DOMDocument();
-				// $validate->loadXML($this->_fullResponseString);
-				// if ($validate->schemaValidate($this->_additionalXsiSchemaLocation)) {
-				// 	$validXMLResponse = true;
-				// }
 
 		}
 

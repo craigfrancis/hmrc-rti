@@ -17,9 +17,9 @@
 //--------------------------------------------------
 // Required files
 
-	require_once('./hmrc/hmrc-gateway.php');
-	require_once('./hmrc/hmrc-gateway-message.php');
-	require_once('./hmrc/hmrc-rti-fps.php');
+	require_once('./lib/hmrc-gateway.php');
+	require_once('./lib/hmrc-gateway-message.php');
+	require_once('./lib/hmrc-rti-fps.php');
 
 	require_once('./test-config.php');
 
@@ -38,32 +38,41 @@
 	$hmrc_gateway->message_key_add('TaxOfficeReference', $config_office_reference);
 
 //--------------------------------------------------
-// Pending requests
+// Delete requests
 
 	if (true) {
 
 		$requests = $hmrc_gateway->request_list('HMRC-PAYE-RTI-FPS');
 		foreach ($requests as $request) {
-
-			//print_r($request);
-
-			$request = $hmrc_gateway->request_poll($request);
-			//print_r($request);
-
-			// $hmrc_gateway->request_delete($request);
+			$hmrc_gateway->request_delete($request);
 		}
-		//print_r($requests);
-		exit();
+
+		// exit('Deleted');
 
 	}
-
-//--------------------------------------------------
-// Delete individual request
 
 	// $hmrc_gateway->request_delete(array(
 	// 		'class' => 'HMRC-PAYE-RTI-FPS',
 	// 		'correlation' => 'DF64ED198BEB43178A0C6A3CCE7D389C',
 	// 	));
+
+//--------------------------------------------------
+// Pending requests
+
+	if (false) {
+
+		$requests = $hmrc_gateway->request_list('HMRC-PAYE-RTI-FPS');
+		foreach ($requests as $request) {
+
+			print_r($request);
+			$request = $hmrc_gateway->request_poll($request);
+			print_r($request);
+
+		}
+
+		exit();
+
+	}
 
 //--------------------------------------------------
 // Create request
@@ -73,14 +82,23 @@
 
 	$request = $hmrc_gateway->request_submit($hmrc_rti);
 
-	print_r($request);
+	// print_r($request);
 
 //--------------------------------------------------
 // Poll for response
 
-	// while ($request['status'] === NULL) {
-	// 	$request = $hmrc_gateway->request_poll($request);
-	// 	print_r($request);
-	// }
+	$k = 0;
+
+	while ($request['status'] === NULL && $k++ < 5) {
+
+		$request = $hmrc_gateway->request_poll($request);
+
+		// print_r($request);
+
+	}
+
+	if ($request['status'] === NULL) {
+		exit('Stopped waiting for a response after several attempts.');
+	}
 
 ?>
