@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--  EPS sample valid against 2013-14 v2.0 RIM artefacts.  This is an example only - you must use your own credentials for testing purposes.  v1.0 09/08/2012 
+  -->
+<GovTalkMessage xmlns="http://www.govtalk.gov.uk/CM/envelope">
+	<EnvelopeVersion>2.0</EnvelopeVersion>
+	<Header>
+		<MessageDetails>
+			<Class>HMRC-PAYE-RTI-EPS</Class>
+			<Qualifier>request</Qualifier>
+			<Function>submit</Function>
+			<CorrelationID />
+			<Transformation>XML</Transformation>
+			<GatewayTest>1</GatewayTest>
+		</MessageDetails>
+		<SenderDetails>
+			<IDAuthentication>
+				<SenderID>ISV635</SenderID>
+				<Authentication>
+					<Method>clear</Method>
+					<Role>principal</Role>
+					<Value>testing1</Value>
+				</Authentication>
+			</IDAuthentication>
+		</SenderDetails>
+	</Header>
+	<GovTalkDetails>
+		<Keys>
+			<Key Type="TaxOfficeNumber">635</Key>
+			<Key Type="TaxOfficeReference">A635</Key>
+		</Keys>
+		<TargetDetails>
+			<Organisation>IR</Organisation>
+		</TargetDetails>
+		<ChannelRouting>
+			<Channel>
+				<URI>Your 4 digit vendor ID</URI>
+				<Product>Your product name</Product>
+				<Version>Your product version</Version>
+			</Channel>
+		</ChannelRouting>
+	</GovTalkDetails>
+	<Body>
+		<IRenvelope xmlns="http://www.govtalk.gov.uk/taxation/PAYE/RTI/EmployerPaymentSummary/13-14/2">
+			<IRheader>
+				<Keys>
+					<Key Type="TaxOfficeNumber">635</Key>
+					<Key Type="TaxOfficeReference">A635</Key>
+				</Keys>
+				<PeriodEnd>2014-04-05</PeriodEnd>
+				<DefaultCurrency>GBP</DefaultCurrency>
+				<IRmark Type="generic">jE21nzNzW0m0XpAD3kznFMIjPtc=</IRmark>
+				<Sender>Employer</Sender>
+			</IRheader>
+			<EmployerPaymentSummary>
+				<EmpRefs>
+					<OfficeNo>635</OfficeNo>
+					<PayeRef>A635</PayeRef>
+					<AORef>635PC00000000</AORef>
+				</EmpRefs>
+				<RecoverableAmountsYTD>
+					<SMPRecovered>257.46</SMPRecovered>
+					<NICCompensationOnSMP>7.73</NICCompensationOnSMP>
+				</RecoverableAmountsYTD>
+				<RelatedTaxYear>13-14</RelatedTaxYear>
+			</EmployerPaymentSummary>
+		</IRenvelope>
+	</Body>
+</GovTalkMessage>
