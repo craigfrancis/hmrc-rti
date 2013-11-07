@@ -55,6 +55,10 @@
 			$this->body_xml = $body_xml;
 		}
 
+		public function body_get_xml() {
+			return $this->body_xml;
+		}
+
 		public function xml_get() {
 
 			$sender_pass = base64_encode(md5(strtolower($this->sender_pass), true)); // MD5 is the only hasing option, and it needs to be lower cased first.

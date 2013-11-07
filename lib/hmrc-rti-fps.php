@@ -2,179 +2,153 @@
 
 	class hmrc_rti_fps extends check {
 
+		private $details = array();
+		private $message_keys = array();
+		private $employees = array();
+
 		public function __construct() {
 		}
 
-		public function employee_add($name) {
+		public function xsi_path_get() {
+			return '/artefacts/2013-14/FPS.xsd';
 		}
 
 		public function message_class_get() {
 			return 'HMRC-PAYE-RTI-FPS';
 		}
 
+		public function message_keys_set($message_keys) {
+			$this->message_keys = $message_keys;
+		}
+
+		public function details_set($details) {
+
+			$this->details = array_merge(array(
+					'year' => NULL,
+					'currency' => 'GBP',
+					'sender' => 'Employer',
+				), $details);
+
+		}
+
+		public function employee_add($details) {
+
+			$this->employees[] = array_merge(array(
+					'name' => NULL,
+					'address' => NULL,
+					'birth_date' => NULL,
+					'gender' => NULL,
+					'pay_id' => NULL,
+				), $details);
+
+		}
+
 		public function request_body_get_xml() {
-			return '
-				<IRenvelope xmlns="http://www.govtalk.gov.uk/taxation/PAYE/RTI/FullPaymentSubmission/13-14/2">
+
+			if ($this->details['year'] === NULL) {
+				exit_with_error('The year neads to be set');
+			}
+
+			$period_range = substr($this->details['year'], -2);
+			$period_range = $period_range . '-' . ($period_range + 1);
+			$period_end = ($this->details['year'] + 1) . '-04-05';
+
+			if ($this->details['year'] == 2013) {
+				$namespace = 'http://www.govtalk.gov.uk/taxation/PAYE/RTI/FullPaymentSubmission/13-14/2';
+			} else if ($this->details['year'] == 2014) {
+				$namespace = 'http://www.govtalk.gov.uk/taxation/PAYE/RTI/FullPaymentSubmission/14-15/4';
+			} else {
+				exit_with_error('Namespace is unknown for year ' . $this->details['year']);
+			}
+
+			$xml = '
+				<IRenvelope xmlns="' . xml($namespace) . '">
 					<IRheader>
-						<Keys>
-							<Key Type="TaxOfficeNumber">635</Key>
-							<Key Type="TaxOfficeReference">A635</Key>
+						<Keys>';
+
+			foreach ($this->message_keys as $key_name => $key_value) {
+				$xml .= '
+								<Key Type="' . xml($key_name) . '">' . xml($key_value) . '</Key>';
+			}
+
+			$xml .= '
 						</Keys>
-						<PeriodEnd>2014-04-05</PeriodEnd>
-						<DefaultCurrency>GBP</DefaultCurrency>
-						<IRmark Type="generic">QfV8qcJuF/uZRbZuvoUjoj+sqBc=</IRmark>
-						<Sender>Employer</Sender>
+						<PeriodEnd>' . xml($period_end) . '</PeriodEnd>
+						<DefaultCurrency>' . xml($this->details['currency']) . '</DefaultCurrency>
+						<IRmark Type="generic">XXX</IRmark>
+						<Sender>' . xml($this->details['sender']) . '</Sender>
 					</IRheader>
 					<FullPaymentSubmission>
 						<EmpRefs>
-							<OfficeNo>635</OfficeNo>
-							<PayeRef>A635</PayeRef>
-							<AORef>635PC00000000</AORef>
-							<ECON>E3567891A</ECON>
+							<OfficeNo>' . xml($this->message_keys['TaxOfficeNumber']) . '</OfficeNo>
+							<PayeRef>' . xml($this->message_keys['TaxOfficeReference']) . '</PayeRef>
+							<AORef>' . xml($this->details['accounts_office_ref']) . '</AORef>
 						</EmpRefs>
-						<RelatedTaxYear>13-14</RelatedTaxYear>
+						<RelatedTaxYear>' . xml($period_range) . '</RelatedTaxYear>';
+
+			foreach ($this->employees as $employee) {
+
+				$xml .= '
 						<Employee>
 							<EmployeeDetails>
-								<NINO>AB164231A</NINO>
 								<Name>
-									<Ttl>Mr</Ttl>
-									<Fore>Alan</Fore>
-									<Sur>Example</Sur>
+									<Ttl>' . xml($employee['name']['title']) . '</Ttl>
+									<Fore>' . xml($employee['name']['forename']) . '</Fore>
+									<Sur>' . xml($employee['name']['surname']) . '</Sur>
 								</Name>
-								<Address>
-									<Line>1 The Lane</Line>
-									<Line>Shipley</Line>
-									<Line>West Yorkshire</Line>
-									<UKPostcode>BD17 2AD</UKPostcode>
+								<Address>';
+
+				foreach ($employee['address']['lines'] as $line) {
+					$xml .= '
+									<Line>' . xml($line) . '</Line>';
+				}
+
+				$xml .= '
+									<UKPostcode>' . xml($employee['address']['postcode']) . '</UKPostcode>
 								</Address>
-								<BirthDate>1980-10-28</BirthDate>
-								<Gender>M</Gender>
+								<BirthDate>' . xml($employee['birth_date']) . '</BirthDate>
+								<Gender>' . xml($employee['gender']) . '</Gender>
 							</EmployeeDetails>
 							<Employment>
-								<Starter>
-									<StartDate>2013-04-08</StartDate>
-									<StartDec>B</StartDec>
-								</Starter>
-								<PayId>123-A03</PayId>
+								<PayId>' . xml($employee['pay_id']) . '</PayId>
 								<FiguresToDate>
-									<TaxablePay>2000.00</TaxablePay>
-									<TotalTax>384.60</TotalTax>
+									<TaxablePay>' . xml($employee['to_date_taxable']) . '</TaxablePay>
+									<TotalTax>' . xml($employee['to_date_tax']) . '</TotalTax>
 								</FiguresToDate>
 								<Payment>
-									<BacsHashCode>1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef</BacsHashCode>
-									<PayFreq>M1</PayFreq>
-									<PmtDate>2013-05-31</PmtDate>
-									<MonthNo>2</MonthNo>
-									<PeriodsCovered>1</PeriodsCovered>
-									<HoursWorked>C</HoursWorked>
-									<TaxCode>45L</TaxCode>
-									<TaxablePay>1000.00</TaxablePay>
-									<TaxDeductedOrRefunded>192.40</TaxDeductedOrRefunded>
+									<PayFreq>' . xml($employee['payment_freqency']) . '</PayFreq>
+									<PmtDate>' . xml($employee['payment_date']) . '</PmtDate>
+									<MonthNo>' . xml($employee['payment_month']) . '</MonthNo>
+									<PeriodsCovered>' . xml($employee['payment_periods']) . '</PeriodsCovered>
+									<HoursWorked>' . xml($employee['payment_hours']) . '</HoursWorked>
+									<TaxCode>' . xml($employee['payment_tax_code']) . '</TaxCode>
+									<TaxablePay>' . xml($employee['payment_taxable']) . '</TaxablePay>
+									<TaxDeductedOrRefunded>' . xml($employee['payment_tax']) . '</TaxDeductedOrRefunded>
 								</Payment>
 								<NIlettersAndValues>
-									<NIletter>D</NIletter>
-									<GrossEarningsForNICsInPd>1000.00</GrossEarningsForNICsInPd>
-									<GrossEarningsForNICsYTD>2000.00</GrossEarningsForNICsYTD>
-									<AtLELYTD>928.00</AtLELYTD>
-									<LELtoPTYTD>340.00</LELtoPTYTD>
-									<PTtoUAPYTD>732.00</PTtoUAPYTD>
-									<UAPtoUELYTD>0.00</UAPtoUELYTD>
-									<TotalEmpNICInPd>33.66</TotalEmpNICInPd>
-									<TotalEmpNICYTD>67.32</TotalEmpNICYTD>
-									<EmpeeContribnsInPd>36.42</EmpeeContribnsInPd>
-									<EmpeeContribnsYTD>72.84</EmpeeContribnsYTD>
+									<NIletter>' . xml($employee['ni_letter']) . '</NIletter>
+									<GrossEarningsForNICsInPd>' . xml($employee['ni_gross_nics_pd']) . '</GrossEarningsForNICsInPd>
+									<GrossEarningsForNICsYTD>' . xml($employee['ni_gross_nics_ytd']) . '</GrossEarningsForNICsYTD>
+									<AtLELYTD>' . xml($employee['ni_total_lel_ytd']) . '</AtLELYTD>
+									<LELtoPTYTD>' . xml($employee['ni_total_pt_ytd']) . '</LELtoPTYTD>
+									<PTtoUAPYTD>' . xml($employee['ni_total_uap_ytd']) . '</PTtoUAPYTD>
+									<UAPtoUELYTD>' . xml($employee['ni_total_uel_ytd']) . '</UAPtoUELYTD>
+									<TotalEmpNICInPd>' . xml($employee['ni_total_nic_pd']) . '</TotalEmpNICInPd>
+									<TotalEmpNICYTD>' . xml($employee['ni_total_nic_ytd']) . '</TotalEmpNICYTD>
+									<EmpeeContribnsInPd>' . xml($employee['ni_total_contribution_pd']) . '</EmpeeContribnsInPd>
+									<EmpeeContribnsYTD>' . xml($employee['ni_total_contribution_ytd']) . '</EmpeeContribnsYTD>
 								</NIlettersAndValues>
 							</Employment>
-						</Employee>
-						<Employee>
-							<EmployeeDetails>
-								<Name>
-									<Ttl>Mr</Ttl>
-									<Fore>John</Fore>
-									<Fore>Edward</Fore>
-									<Sur>Surname</Sur>
-								</Name>
-								<Address>
-									<Line>45 High Street</Line>
-									<Line>Gosforth</Line>
-									<Line>Newcastle upon Tyne</Line>
-									<Line>Tyne and Wear</Line>
-									<UKPostcode>NE1 7XF</UKPostcode>
-								</Address>
-								<BirthDate>1924-05-11</BirthDate>
-								<Gender>M</Gender>
-							</EmployeeDetails>
-							<Employment>
-								<PayId>123-A02</PayId>
-								<IrrEmp>yes</IrrEmp>
-								<LeavingDate>2013-05-17</LeavingDate>
-								<FiguresToDate>
-									<TaxablePay>8000.00</TaxablePay>
-									<TotalTax>756.76</TotalTax>
-									<StudentLoansTD>482.00</StudentLoansTD>
-								</FiguresToDate>
-								<Payment>
-									<BacsHashCode>ef1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcd</BacsHashCode>
-									<PayFreq>M1</PayFreq>
-									<PmtDate>2013-05-31</PmtDate>
-									<MonthNo>2</MonthNo>
-									<PeriodsCovered>1</PeriodsCovered>
-									<HoursWorked>B</HoursWorked>
-									<TaxCode>810L</TaxCode>
-									<TaxablePay>4000.00</TaxablePay>
-									<StudentLoanRecovered>241.00</StudentLoanRecovered>
-									<TaxDeductedOrRefunded>756.76</TaxDeductedOrRefunded>
-								</Payment>
-								<NIlettersAndValues>
-									<NIletter>C</NIletter>
-									<GrossEarningsForNICsInPd>4000.00</GrossEarningsForNICsInPd>
-									<GrossEarningsForNICsYTD>8000.00</GrossEarningsForNICsYTD>
-									<AtLELYTD>928.00</AtLELYTD>
-									<LELtoPTYTD>340.00</LELtoPTYTD>
-									<PTtoUAPYTD>5406.00</PTtoUAPYTD>
-									<UAPtoUELYTD>406.00</UAPtoUELYTD>
-									<TotalEmpNICInPd>465.88</TotalEmpNICInPd>
-									<TotalEmpNICYTD>931.76</TotalEmpNICYTD>
-									<EmpeeContribnsInPd>0.00</EmpeeContribnsInPd>
-									<EmpeeContribnsYTD>0.00</EmpeeContribnsYTD>
-								</NIlettersAndValues>
-							</Employment>
-						</Employee>
-						<Employee>
-							<EmployeeDetails>
-								<NINO>NS341264D</NINO>
-								<Name>
-									<Ttl>Miss</Ttl>
-									<Fore>Belinda</Fore>
-									<Fore>Jo</Fore>
-									<Sur>Test</Sur>
-								</Name>
-								<BirthDate>1958-08-17</BirthDate>
-								<Gender>F</Gender>
-							</EmployeeDetails>
-							<Employment>
-							<OccPenInd>yes</OccPenInd>
-								<PayId>123-A01</PayId>
-								<FiguresToDate>
-									<TaxablePay>800.00</TaxablePay>
-									<TotalTax>320.00</TotalTax>
-								</FiguresToDate>
-								<Payment>
-									<BacsHashCode>34567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef12</BacsHashCode>
-									<PayFreq>M1</PayFreq>
-									<PmtDate>2013-04-30</PmtDate>
-									<MonthNo>2</MonthNo>
-									<PeriodsCovered>1</PeriodsCovered>
-									<HoursWorked>A</HoursWorked>
-									<TaxCode BasisNonCumulative="yes">D0</TaxCode>
-									<TaxablePay>400.00</TaxablePay>
-									<TaxDeductedOrRefunded>160.00</TaxDeductedOrRefunded>
-									<SMPYTD>257.46</SMPYTD>
-								</Payment>
-							</Employment>
-						</Employee>
+						</Employee>';
+
+			}
+
+			$xml .= '
 					</FullPaymentSubmission>
 				</IRenvelope>';
+
+			return $xml;
+
 		}
 
 	}

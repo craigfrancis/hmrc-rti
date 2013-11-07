@@ -46,8 +46,12 @@
 			//--------------------------------------------------
 			// Setup message
 
+				$request->message_keys_set($this->message_keys);
+
 				$this->message_class = $request->message_class_get();
 				$this->gateway_url = $this->submission_url_get();
+
+				$body_xml = $request->request_body_get_xml();
 
 				$message = new hmrc_gateway_message();
 				$message->message_qualifier_set('request');
@@ -55,12 +59,12 @@
 				$message->message_live_set($this->gateway_live);
 				$message->message_keys_set($this->message_keys);
 				$message->sender_set($this->sender_name, $this->sender_pass, $this->sender_email);
-				$message->body_set_xml($request->request_body_get_xml());
+				$message->body_set_xml($body_xml);
 
 			//--------------------------------------------------
 			// Send
 
-				$this->_send($message);
+				$this->_send($message, $request->xsi_path_get());
 
 			//--------------------------------------------------
 			// Response
@@ -195,21 +199,20 @@
 							'status' => NULL,
 						);
 
+				} else if ($qualifier == 'response') {
+
+					return array(
+							'class' => $this->message_class,
+							'correlation' => $request['correlation'],
+							'transaction' => strval($this->response_object->Header->MessageDetails->TransactionID),
+							'endpoint' => strval($this->response_object->Header->MessageDetails->ResponseEndPoint),
+							'timeout' => time(),
+							'status' => 'SUBMISSION_RESPONSE',
+						);
+
 				} else {
 
-					if (false) {
-						header('Content-Type: text/xml; charset=UTF-8');
-						echo $this->response_string;
-						exit();
-					} else {
-						$dom_sxe = dom_import_simplexml($this->response_object);
-						$dom = new DOMDocument('1.0');
-						$dom_sxe = $dom->importNode($dom_sxe, true);
-						$dom_sxe = $dom->appendChild($dom_sxe);
-						$dom->preserveWhiteSpace = false;
-						$dom->formatOutput = true;
-						echo $dom->saveXML() . "\n--------------------------------------------------\n\n";
-					}
+					exit_with_error('Invalid qualifier from HMRC', $this->response_string);
 
 				}
 
@@ -249,7 +252,7 @@
 
 		}
 
-		private function _send($message, $response_xsi = NULL) {
+		private function _send($message, $xsi_path = NULL) {
 
 			//--------------------------------------------------
 			// Message details
@@ -262,20 +265,50 @@
 				$message_xml = $message->xml_get();
 
 			//--------------------------------------------------
+			// IRMark
+
+				if (preg_match('/(<IRmark Type="generic">)[^<]*(<\/IRmark>)/', $message_xml, $matches)) {
+
+					$message_xml_clean = str_replace($matches[0], '', $message_xml);
+
+					if (preg_match('/<GovTalkMessage( xmlns="[^"]+")>/', $message_xml, $namespace_matches)) {
+						$message_namespace = $namespace_matches[1];
+					} else {
+						$message_namespace = '';
+					}
+
+					$message_xml_clean = preg_replace('/^.*<Body>(.*)<\/Body>.*$/s', '<Body' . $message_namespace . '>$1</Body>', $message_xml_clean);
+
+					$message_xml_dom = new DOMDocument;
+					$message_xml_dom->loadXML($message_xml_clean);
+
+					$message_irmark = base64_encode(sha1($message_xml_dom->documentElement->C14N(), true));
+
+					$message_xml = str_replace($matches[0], $matches[1] . $message_irmark . $matches[2], $message_xml);
+
+				}
+
+header('Content-Type: text/xml; charset=UTF-8');
+exit($message_xml);
+
+			//--------------------------------------------------
 			// Validation
 
-				// $validate = new DOMDocument();
-				// $validate->loadXML($message_xml);
+				if ($xsi_path && false) { // TODO
 
-				// $schema_path = dirname(__FILE__) . '/hmrc/validation-2013/envelope.xsd';
+					$xsi_path = dirname(__FILE__) . '/hmrc/' . $xsi_path;
 
-				// if (!$validate->schemaValidate($schema_path)) {
-				// 	exit_with_error('Invalid request to HMRC', $message_xml);
-				// }
-				// exit('valid');
+					$validate_xml = $message->body_get_xml();
+					// $validate_xml = $message->xml_get();
 
-				// if ($response_xsi) { // TODO
-				// }
+					$validate = new DOMDocument();
+					$validate->loadXML($validate_xml);
+
+					if (!$validate->schemaValidate($xsi_path)) {
+						exit_with_error('Invalid XML according to XSI file', $validate_xml);
+					}
+
+				}
 
 			//--------------------------------------------------
 			// Setup socket - similar to curl
@@ -299,6 +332,20 @@
 
 			//--------------------------------------------------
 			// Parse XML
+
+				// if (true) {
+				// 	header('Content-Type: text/xml; charset=UTF-8');
+				// 	exit($this->response_string);
+				// } else {
+				// 	$dom_sxe = dom_import_simplexml($this->response_object);
+				// 	$dom = new DOMDocument('1.0');
+				// 	$dom_sxe = $dom->importNode($dom_sxe, true);
+				// 	$dom_sxe = $dom->appendChild($dom_sxe);
+				// 	$dom->preserveWhiteSpace = false;
+				// 	$dom->formatOutput = true;
+				// 	echo $dom->saveXML() . "\n--------------------------------------------------\n\n";
+				// 	exit();
+				// }
 
 				$this->response_string = $socket->response_data_get();
 				$this->response_object = simplexml_load_string($this->response_string);
