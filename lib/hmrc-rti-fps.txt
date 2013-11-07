@@ -1,0 +1,94 @@
+	EmployeeDetails
+
+		NINO
+		Name
+		Address
+		BirthDate
+		Gender
+		PassportNumber
+		PartnerDetails
+
+	Employment
+
+		OccPenInd
+
+		DirectorsNIC - Director's NIC and method of calculation (e.g. AN)
+
+		TaxWkOfApptOfDirector
+
+		Starter
+		
+			StartDate
+			StartDec
+			StudentLoan
+			Seconded
+			OccPension
+			StatePension
+
+		PayId
+
+		PayIdChgd
+		
+			PayrollIdChangedIndicator
+			PayIdChgd
+
+		PaymentToANonIndividual
+
+		IrrEmp
+
+		LeavingDate
+
+		FiguresToDate
+		
+			TaxablePay
+			TotalTax
+			StudentLoansTD
+			BenefitsTaxedViaPayrollYTD
+			EmpeePenContribnsPaidYTD
+			EmpeePenContribnsNotPaidYTD
+
+		Payment
+		
+			BacsHashCode
+			PayFreq
+			PmtDate
+			LateReason
+			WeekNo
+			PeriodsCovered
+			MonthNo
+			AggregatedEarnings
+			PmtAfterLeaving
+			HoursWorked
+			TaxCode
+			TaxablePay
+			NonTaxOrNICPmt
+			DednsFromNetPay
+			PayAfterStatDedns
+			BenefitsTaxedViaPayroll
+			EmpeePenContribnsPaid
+			ItemsSubjectToClass1NIC
+			EmpeePenContribnsNotPaid
+			StudentLoanRecovered
+			TaxDeductedOrRefunded
+			OnStrike
+			UnpaidAbsence
+			SMPYTD
+			OSPPYTD
+			SAPYTD
+			ASPPYTD
+			TrivialCommutationPayment
+
+		NIlettersAndValues
+		
+			NIletter
+			SCON
+			GrossEarningsForNICsInPd
+			GrossEarningsForNICsYTD
+			AtLELYTD
+			LELtoPTYTD
+			PTtoUAPYTD
+			UAPtoUELYTD
+			TotalEmpNICInPd
+			TotalEmpNICYTD
+			EmpeeContribnsInPd
+			EmpeeContribnsYTD
