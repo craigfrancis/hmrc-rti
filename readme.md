@@ -66,15 +66,9 @@ There are 5 types of submissions available for RTI:
 
 **Employer Alignment Submission (EAS):** allows employers and HMRC to align employee records before the employer joins RTI.
 
-**Full Payment Submission (FPS):** required each time an employer makes a payment to an employee.
+**Full Payment Submission (FPS):** required each time an employer makes a payment to an employee. Can be used to report the final return for year details.
 
-Can be used to report the final return for year details.
-
-**Employer Payment Summary (EPS):** the submission will include data to enable HMRC to calculate employer liability. The submission will only be needed where the employer needs to notify HMRC of adjustments to their overall liability.
-
-Can be used to report the final return for year details.
-
-Should also be used to report if no employees have been paid in a pay period.
+**Employer Payment Summary (EPS):** the submission will include data to enable HMRC to calculate employer liability. The submission will only be needed where the employer needs to notify HMRC of adjustments to their overall liability. Can be used to report the final return for year details. Should also be used to report if no employees have been paid in a pay period.
 
 **NINO Verification Request (NVR):** allows employers to validate the NINO or check if a new employee NINO is available.
 
