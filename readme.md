@@ -30,6 +30,7 @@ Then look at the 5 types of submission for RTI:
 http://www.hmrc.gov.uk/softwaredevelopers/rti/internet-rti.htm
 
 http://www.hmrc.gov.uk/softwaredevelopers/rti/rti-howtouse.pdf
+
 http://www.hmrc.gov.uk/softwaredevelopers/rti/rti-howtouse-13-14.pdf
 
 ---
@@ -38,14 +39,14 @@ http://www.hmrc.gov.uk/softwaredevelopers/rti/rti-howtouse-13-14.pdf
 
 The Government Gateway has a test service at:
 
-https://secure.dev.gateway.gov.uk/submission
-https://secure.dev.gateway.gov.uk/submissionTPVS
+	https://secure.dev.gateway.gov.uk/submission
+	https://secure.dev.gateway.gov.uk/submissionTPVS
 
-https://www.tpvs.hmrc.gov.uk/HMRC/RTIFPS
-https://www.tpvs.hmrc.gov.uk/HMRC/RTIEPS
-https://www.tpvs.hmrc.gov.uk/HMRC/RTIEAS
-https://www.tpvs.hmrc.gov.uk/HMRC/RTINVR
-https://www.tpvs.hmrc.gov.uk/HMRC/RTIEYU
+	https://www.tpvs.hmrc.gov.uk/HMRC/RTIFPS
+	https://www.tpvs.hmrc.gov.uk/HMRC/RTIEPS
+	https://www.tpvs.hmrc.gov.uk/HMRC/RTIEAS
+	https://www.tpvs.hmrc.gov.uk/HMRC/RTINVR
+	https://www.tpvs.hmrc.gov.uk/HMRC/RTIEYU
 
 ---
 
@@ -57,11 +58,11 @@ https://secure.gateway.gov.uk/submission
 
 There are 5 types of submissions available for RTI:
 
-HMRC-PAYE-RTI-EAS - Employer Alignment Submission
-HMRC-PAYE-RTI-EPS - Employer Payment Summary
-HMRC-PAYE-RTI-EYU - Earlier Year Update
-HMRC-PAYE-RTI-FPS - Full Payment Submission
-HMRC-PAYE-RTI-NVR - NINO Verification Request
+	HMRC-PAYE-RTI-EAS - Employer Alignment Submission
+	HMRC-PAYE-RTI-EPS - Employer Payment Summary
+	HMRC-PAYE-RTI-EYU - Earlier Year Update
+	HMRC-PAYE-RTI-FPS - Full Payment Submission
+	HMRC-PAYE-RTI-NVR - NINO Verification Request
 
 **Employer Alignment Submission (EAS):** allows employers and HMRC to align employee records before the employer joins RTI.
 
