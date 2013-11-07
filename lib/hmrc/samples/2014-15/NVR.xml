@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--  NVR sample valid against NVR 2014-15 schema v1-1.  This is an example only - you must use your own credentials for testing purposes.  v1.0 20/09/13  
+  -->
+<GovTalkMessage xmlns="http://www.govtalk.gov.uk/CM/envelope">
+	<EnvelopeVersion>2.0</EnvelopeVersion>
+	<Header>
+		<MessageDetails>
+			<Class>HMRC-PAYE-RTI-NVR</Class>
+			<Qualifier>request</Qualifier>
+			<Function>submit</Function>
+			<CorrelationID />
+			<Transformation>XML</Transformation>
+			<GatewayTest>1</GatewayTest>
+		</MessageDetails>
+		<SenderDetails>
+			<IDAuthentication>
+				<SenderID>ISV635</SenderID>
+				<Authentication>
+					<Method>clear</Method>
+					<Role>principal</Role>
+					<Value>testing1</Value>
+				</Authentication>
+			</IDAuthentication>
+		</SenderDetails>
+	</Header>
+	<GovTalkDetails>
+		<Keys>
+			<Key Type="TaxOfficeNumber">635</Key>
+			<Key Type="TaxOfficeReference">A635</Key>
+		</Keys>
+		<ChannelRouting>
+			<Channel>
+				<URI>your 4 digit vendor ID</URI>
+				<Product>your product name</Product>
+				<Version>your product version</Version>
+			</Channel>
+		</ChannelRouting>
+	</GovTalkDetails>
+	<Body>
+		<IRenvelope xmlns="http://www.govtalk.gov.uk/taxation/PAYE/RTI/NINOverificationRequest/1">
+			<IRheader>
+				<Keys>
+					<Key Type="TaxOfficeNumber">635</Key>
+					<Key Type="TaxOfficeReference">A635</Key>
+				</Keys>
+				<PeriodEnd>2015-04-05</PeriodEnd>
+				<DefaultCurrency>GBP</DefaultCurrency>
+				<IRmark Type="generic">LNxc+vFKjiT0wcajMsKcNbGrs5M=</IRmark>
+				<Sender>Employer</Sender>
+			</IRheader>
+			<NINOverificationRequest>
+				<EmpRefs>
+					<OfficeNo>635</OfficeNo>
+					<PayeRef>A635</PayeRef>
+					<AORef>635PC00000000</AORef>
+				</EmpRefs>
+				<Employee>
+					<EmployeeDetails>
+						<Name>
+							<Ttl>Mr</Ttl>
+							<Fore>John</Fore>
+							<Fore>Edward</Fore>
+							<Sur>Surname</Sur>
+						</Name>
+						<Address>
+							<Line>45 High Street</Line>
+							<Line>Gosforth</Line>
+							<Line>Newcastle Upon Tyne</Line>
+							<Line>Tyne and Wear</Line>
+							<UKPostcode>NE1 8BD</UKPostcode>
+						</Address>
+						<BirthDate>1924-05-11</BirthDate>
+						<Gender>M</Gender>
+					</EmployeeDetails>
+					<Employment>
+						<PayId>123-A02</PayId>
+					</Employment>
+				</Employee>
+			</NINOverificationRequest>
+		</IRenvelope>
+	</Body>
+</GovTalkMessage>
