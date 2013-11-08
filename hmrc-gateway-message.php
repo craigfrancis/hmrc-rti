@@ -41,6 +41,10 @@
 			$this->message_correlation = $message_correlation;
 		}
 
+		public function message_correlation_get() {
+			return $this->message_correlation;
+		}
+
 		public function message_keys_set($message_keys) {
 			$this->message_keys = $message_keys;
 		}

@@ -91,7 +91,7 @@
 			'ni_total_contribution_pd'  => '0.00', // Employees contributions due on all earnings in this pay period.
 			'ni_total_contribution_ytd' => '0.00', // Employees contributions due on all earnings year to date.
 
-				// TODO: Calculations: http://www.hmrc.gov.uk/rti/developerfaqs.htm
+				// Calculations: http://www.hmrc.gov.uk/rti/developerfaqs.htm
 
 		);
 
@@ -143,12 +143,12 @@
 
 	$hmrc_rti->employee_add($example_employee);
 
+//--------------------------------------------------
+// Send and poll for response
+
 	$request = $hmrc_gateway->request_submit($hmrc_rti);
 
 	print_r($request);
-
-//--------------------------------------------------
-// Poll for response
 
 	$k = 0;
 
