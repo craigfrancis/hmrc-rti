@@ -335,6 +335,9 @@
 			//--------------------------------------------------
 			// Send request
 
+					// header('Content-Type: text/xml; charset=UTF-8');
+					// exit($message_xml);
+
 				$send_result = $socket->post($this->gateway_url, $message_xml);
 
 				if (!$send_result) {
