@@ -16,6 +16,7 @@
 		private $response_string = NULL;
 		private $response_object = NULL;
 		private $response_qualifier = NULL;
+		private $response_function = NULL;
 		private $response_correlation = NULL;
 
 		public function __construct() {
@@ -388,6 +389,12 @@
 					exit_with_error('Invalid response from HMRC (qualifier)', $this->response_string);
 				}
 
+				if (isset($this->response_object->Header->MessageDetails->Function)) {
+					$this->response_function = strval($this->response_object->Header->MessageDetails->Function);
+				} else {
+					exit_with_error('Invalid response from HMRC (function)', $this->response_string);
+				}
+
 				if (isset($this->response_object->Header->MessageDetails->CorrelationID)) {
 					$this->response_correlation = strval($this->response_object->Header->MessageDetails->CorrelationID);
 				} else {
@@ -401,6 +408,7 @@
 
 					$this->log_db->update($this->log_table_sql, array(
 							'response_qualifier' => $this->response_qualifier,
+							'response_function' => $this->response_function,
 							'response_correlation' => $this->response_correlation,
 						), $log_where_sql);
 
