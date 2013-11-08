@@ -263,6 +263,7 @@
 				$message->message_transation_set($this->message_transation);
 
 				$message_xml = $message->xml_get();
+				$message_correlation = $message->message_correlation_get();
 
 			//--------------------------------------------------
 			// IRMark
@@ -315,6 +316,7 @@
 					$this->log_db->insert($this->log_table_sql, array(
 							'request_url' => $this->gateway_url,
 							'request_xml' => $message_xml,
+							'request_correlation' => $message_correlation,
 							'request_date' => date('Y-m-d H:i:s'),
 						));
 
@@ -416,8 +418,6 @@
 
 			//--------------------------------------------------
 			// Check correlation
-
-				$message_correlation = $message->message_correlation_get();
 
 				if ($message_correlation !== NULL && $this->response_correlation != $message_correlation) {
 					exit_with_error('Invalid response correlation "' . $message_correlation . '"', $this->response_string);
