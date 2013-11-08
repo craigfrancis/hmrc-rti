@@ -78,7 +78,7 @@
 						<Gender>M</Gender>
 					</EmployeeDetails>
 					<Employment>
-					<ExpatInd>yes</ExpatInd>
+						<ExpatInd>yes</ExpatInd>
 						<Starter>
 							<StartDate>2013-05-03</StartDate>
 						</Starter>
@@ -108,7 +108,6 @@
 					<Employment>
 						<PayId>123-A02</PayId>
 						<IrrEmp>yes</IrrEmp>
-						<LeavingDate>2013-04-17</LeavingDate>
 						<Payment>
 							<TaxCode>810L</TaxCode>
 						</Payment>

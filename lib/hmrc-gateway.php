@@ -80,6 +80,7 @@
 							'endpoint' => strval($this->response_object->Header->MessageDetails->ResponseEndPoint),
 							'timeout' => (time() + $interval),
 							'status' => NULL,
+							'response' => NULL,
 						);
 
 				} else {
@@ -127,6 +128,7 @@
 								'endpoint' => strval($this->response_object->Header->MessageDetails->ResponseEndPoint),
 								'timeout' => time(),
 								'status' => strval($request->Status),
+								'response' => NULL,
 							);
 
 					}
@@ -197,6 +199,7 @@
 							'endpoint' => strval($this->response_object->Header->MessageDetails->ResponseEndPoint),
 							'timeout' => (time() + $interval),
 							'status' => NULL,
+							'response' => NULL,
 						);
 
 				} else if ($qualifier == 'response') {
@@ -208,6 +211,7 @@
 							'endpoint' => strval($this->response_object->Header->MessageDetails->ResponseEndPoint),
 							'timeout' => time(),
 							'status' => 'SUBMISSION_RESPONSE',
+							'response' => $this->response_string,
 						);
 
 				} else {
@@ -288,8 +292,8 @@
 
 				}
 
-header('Content-Type: text/xml; charset=UTF-8');
-exit($message_xml);
+// header('Content-Type: text/xml; charset=UTF-8');
+// exit($message_xml);
 
 			//--------------------------------------------------
 			// Validation

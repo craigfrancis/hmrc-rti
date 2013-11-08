@@ -21,6 +21,7 @@
 	require_once('./lib/hmrc-gateway-message.php');
 	require_once('./lib/hmrc-rti.php');
 	require_once('./lib/hmrc-rti-fps.php');
+	require_once('./lib/hmrc-rti-eas.php');
 
 	require_once('./test-config.php');
 
@@ -39,44 +40,11 @@
 	$hmrc_gateway->message_key_add('TaxOfficeReference', $config_tax_office_reference);
 
 //--------------------------------------------------
-// Delete requests
+// Example employee
 
-	// $requests = $hmrc_gateway->request_list('HMRC-PAYE-RTI-FPS');
-	// foreach ($requests as $request) {
-	// 	$hmrc_gateway->request_delete($request);
-	// }
-	// exit('Deleted');
+	$example_employee = array(
 
-	// $hmrc_gateway->request_delete(array(
-	// 		'class' => 'HMRC-PAYE-RTI-FPS',
-	// 		'correlation' => 'DF64ED198BEB43178A0C6A3CCE7D389C',
-	// 	));
-
-//--------------------------------------------------
-// Pending requests
-
-	// $requests = $hmrc_gateway->request_list('HMRC-PAYE-RTI-FPS');
-	// foreach ($requests as $request) {
-	//
-	// 	print_r($request);
-	// 	$request = $hmrc_gateway->request_poll($request);
-	// 	print_r($request);
-	// 	exit();
-	//
-	// }
-
-//--------------------------------------------------
-// Create request
-
-	$hmrc_rti = new hmrc_rti_fps();
-
-	$hmrc_rti->details_set(array(
-			'year' => 2013,
-			'accounts_office_reference' => $config_accounts_office_reference,
-			'corporation_tax_reference' => $config_corporation_tax_reference,
-		));
-
-	$hmrc_rti->employee_add(array(
+			'national_insurance_number' => 'AB164231A',
 
 			'name' => array(
 					'title' => 'Mr',
@@ -127,7 +95,49 @@
 
 				// TODO: Calculations: http://www.hmrc.gov.uk/rti/developerfaqs.htm
 
+		);
+
+//--------------------------------------------------
+// Delete requests
+
+	// $requests = $hmrc_gateway->request_list('HMRC-PAYE-RTI-FPS');
+	// print_r($requests);
+	// foreach ($requests as $request) {
+	// 	$hmrc_gateway->request_delete($request);
+	// }
+	// exit('Deleted');
+
+	// $hmrc_gateway->request_delete(array(
+	// 		'class' => 'HMRC-PAYE-RTI-FPS',
+	// 		'correlation' => 'DF64ED198BEB43178A0C6A3CCE7D389C',
+	// 	));
+
+//--------------------------------------------------
+// Pending requests
+
+	// $requests = $hmrc_gateway->request_list('HMRC-PAYE-RTI-FPS');
+	// foreach ($requests as $request) {
+	//
+	// 	print_r($request);
+	// 	$request = $hmrc_gateway->request_poll($request);
+	// 	print_r($request);
+	// 	exit();
+	//
+	// }
+
+//--------------------------------------------------
+// Create request
+
+	$hmrc_rti = new hmrc_rti_fps();
+	// $hmrc_rti = new hmrc_rti_eas();
+
+	$hmrc_rti->details_set(array(
+			'year' => 2013,
+			'accounts_office_reference' => $config_accounts_office_reference,
+			'corporation_tax_reference' => $config_corporation_tax_reference,
 		));
+
+	$hmrc_rti->employee_add($example_employee);
 
 	$request = $hmrc_gateway->request_submit($hmrc_rti);
 

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--  EAS sample valid against EAS schema version 3-2 .  This is an example only - you must use your own credentials for testing purposes.  v1.0 20/09/13  
+<!--  EAS sample valid against EAS schema version 3-2 .  This is an example only - you must use your own credentials for testing purposes.  v1.0 20/09/13
+
   -->
 <GovTalkMessage xmlns="http://www.govtalk.gov.uk/CM/envelope">
 	<EnvelopeVersion>2.0</EnvelopeVersion>
@@ -77,6 +78,7 @@
 						<Gender>M</Gender>
 					</EmployeeDetails>
 					<Employment>
+						<!-- <ExpatInd>yes</ExpatInd> -->
 						<Starter>
 							<StartDate>2014-04-08</StartDate>
 						</Starter>

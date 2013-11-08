@@ -15,6 +15,7 @@
 		public function employee_add($details) {
 
 			$this->employees[] = array_merge(array(
+					'national_insurance_number' => NULL,
 					'name' => NULL,
 					'address' => NULL,
 					'birth_date' => NULL,
@@ -65,8 +66,14 @@
 							<EmpRefs>
 								<OfficeNo>' . xml($this->message_keys['TaxOfficeNumber']) . '</OfficeNo>
 								<PayeRef>' . xml($this->message_keys['TaxOfficeReference']) . '</PayeRef>
-								<AORef>' . xml($this->details['accounts_office_reference']) . '</AORef>
-								<COTAXRef>' . xml($this->details['corporation_tax_reference']) . '</COTAXRef>
+								<AORef>' . xml($this->details['accounts_office_reference']) . '</AORef>';
+
+			if ($this->details['year'] >= 2014) {
+				$xml .= '
+								<COTAXRef>' . xml($this->details['corporation_tax_reference']) . '</COTAXRef>';
+			}
+
+			$xml .= '
 							</EmpRefs>
 							<RelatedTaxYear>' . xml($period_range) . '</RelatedTaxYear>';
 
@@ -75,6 +82,7 @@
 				$xml .= '
 							<Employee>
 								<EmployeeDetails>
+									<NINO>' . xml($employee['national_insurance_number']) . '</NINO>
 									<Name>
 										<Ttl>' . xml($employee['name']['title']) . '</Ttl>
 										<Fore>' . xml($employee['name']['forename']) . '</Fore>
