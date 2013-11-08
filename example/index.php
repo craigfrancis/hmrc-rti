@@ -98,15 +98,15 @@
 //--------------------------------------------------
 // Delete requests
 
-	$requests = $hmrc_gateway->request_list('HMRC-PAYE-RTI-FPS');
-	print_r($requests);
-	foreach ($requests as $request) {
-		$hmrc_gateway->request_delete($request);
-	}
-	exit('Deleted');
+	// $requests = $hmrc_gateway->request_list('HMRC-PAYE-RTI-EAS');
+	// print_r($requests);
+	// foreach ($requests as $request) {
+	// 	$hmrc_gateway->request_delete($request);
+	// }
+	// exit('Deleted');
 
 	// $hmrc_gateway->request_delete(array(
-	// 		'class' => 'HMRC-PAYE-RTI-FPS',
+	// 		'class' => 'HMRC-PAYE-RTI-EAS',
 	// 		'correlation' => 'DF64ED198BEB43178A0C6A3CCE7D389C',
 	// 	));
 
