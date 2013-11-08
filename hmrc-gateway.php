@@ -287,6 +287,10 @@
 
 					$message_xml = str_replace($matches[0], $matches[1] . $message_irmark . $matches[2], $message_xml);
 
+				} else {
+
+					$message_irmark = NULL;
+
 				}
 
 			//--------------------------------------------------
@@ -317,6 +321,7 @@
 							'request_url' => $this->gateway_url,
 							'request_xml' => $message_xml,
 							'request_correlation' => strval($message_correlation), // Not NULL
+							'request_irmark' => strval($message_irmark),
 							'request_date' => date('Y-m-d H:i:s'),
 						));
 
