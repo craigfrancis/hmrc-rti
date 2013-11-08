@@ -311,7 +311,7 @@
 
 				if ($this->log_table_sql) {
 
-					$db->insert($this->log_table_sql, array(
+					$this->log_db->insert($this->log_table_sql, array(
 							'request_url' => $this->gateway_url,
 							'request_xml' => $message_xml,
 							'request_date' => date('Y-m-d H:i:s'),
@@ -372,7 +372,7 @@
 
 				if ($this->log_table_sql) {
 
-					$db->update($this->log_table_sql, array(
+					$this->log_db->update($this->log_table_sql, array(
 							'response_xml' => $this->response_string,
 							'response_date' => date('Y-m-d H:i:s'),
 						), $log_where_sql);
@@ -399,7 +399,7 @@
 
 				if ($this->log_table_sql) {
 
-					$db->update($this->log_table_sql, array(
+					$this->log_db->update($this->log_table_sql, array(
 							'response_qualifier' => $this->response_qualifier,
 							'response_correlation' => $this->response_correlation,
 						), $log_where_sql);
