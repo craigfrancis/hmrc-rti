@@ -19,6 +19,7 @@
 
 	require_once('./lib/hmrc-gateway.php');
 	require_once('./lib/hmrc-gateway-message.php');
+	require_once('./lib/hmrc-rti.php');
 	require_once('./lib/hmrc-rti-fps.php');
 
 	require_once('./test-config.php');
@@ -71,7 +72,8 @@
 
 	$hmrc_rti->details_set(array(
 			'year' => 2013,
-			'accounts_office_ref' => $config_accounts_office_reference,
+			'accounts_office_reference' => $config_accounts_office_reference,
+			'corporation_tax_reference' => $config_corporation_tax_reference,
 		));
 
 	$hmrc_rti->employee_add(array(
@@ -122,6 +124,8 @@
 
 			'ni_total_contribution_pd'  => '0.00', // Employees contributions due on all earnings in this pay period.
 			'ni_total_contribution_ytd' => '0.00', // Employees contributions due on all earnings year to date.
+
+				// TODO: Calculations: http://www.hmrc.gov.uk/rti/developerfaqs.htm
 
 		));
 
