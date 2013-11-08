@@ -311,7 +311,7 @@
 
 				if ($xsi_path && false) { // TODO
 
-					$xsi_path = dirname(__FILE__) . '/hmrc/' . $xsi_path;
+					$xsi_path = dirname(__FILE__) . '/' . $xsi_path;
 
 					$validate_xml = $message->body_get_xml();
 					// $validate_xml = $message->xml_get();

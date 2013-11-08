@@ -5,7 +5,7 @@
 		private $employees = array();
 
 		public function xsi_path_get() {
-			return '/artefacts/2013-14/EAS.xsd';
+			return 'artefacts/2013-14/EAS.xsd';
 		}
 
 		public function message_class_get() {

@@ -5,7 +5,7 @@
 		private $employees = array();
 
 		public function xsi_path_get() {
-			return '/artefacts/2013-14/FPS.xsd';
+			return 'artefacts/2013-14/FPS.xsd';
 		}
 
 		public function message_class_get() {

@@ -12,18 +12,18 @@
 	define('ENCRYPTION_KEY', 'ViJ+P9mW/74C{/BEL');
 	define('FRAMEWORK_INIT_ONLY', true);
 
-	require_once(ROOT . '/../craig.framework/framework/0.1/bootstrap.php');
+	require_once(ROOT . '/../../craig.framework/framework/0.1/bootstrap.php');
 
 //--------------------------------------------------
 // Required files
 
-	require_once('./lib/hmrc-gateway.php');
-	require_once('./lib/hmrc-gateway-message.php');
-	require_once('./lib/hmrc-rti.php');
-	require_once('./lib/hmrc-rti-fps.php');
-	require_once('./lib/hmrc-rti-eas.php');
+	require_once('../hmrc-gateway.php');
+	require_once('../hmrc-gateway-message.php');
+	require_once('../hmrc-rti.php');
+	require_once('../hmrc-rti-fps.php');
+	require_once('../hmrc-rti-eas.php');
 
-	require_once('./test-config.php');
+	require_once('./config.php');
 
 //--------------------------------------------------
 // Testing
@@ -98,12 +98,12 @@
 //--------------------------------------------------
 // Delete requests
 
-	// $requests = $hmrc_gateway->request_list('HMRC-PAYE-RTI-FPS');
-	// print_r($requests);
-	// foreach ($requests as $request) {
-	// 	$hmrc_gateway->request_delete($request);
-	// }
-	// exit('Deleted');
+	$requests = $hmrc_gateway->request_list('HMRC-PAYE-RTI-FPS');
+	print_r($requests);
+	foreach ($requests as $request) {
+		$hmrc_gateway->request_delete($request);
+	}
+	exit('Deleted');
 
 	// $hmrc_gateway->request_delete(array(
 	// 		'class' => 'HMRC-PAYE-RTI-FPS',
