@@ -26,10 +26,6 @@
 			return ($this->gateway_live ? 'https://secure.gateway.gov.uk/submission' : 'https://secure.dev.gateway.gov.uk/submission');
 		}
 
-		public function message_class_get() {
-			return $this->message_class . ($this->gateway_test ? '-TIL' : '');
-		}
-
 		public function sender_set($sender_name, $sender_pass, $sender_email) {
 			$this->sender_name = $sender_name;
 			$this->sender_pass = $sender_pass;
@@ -39,9 +35,17 @@
 		public function request_submit($request) {
 
 			//--------------------------------------------------
-			// Setup message
+			// Message class
 
 				$this->message_class = $request->message_class_get();
+
+				if ($this->gateway_test) {
+					$this->message_class .= '-TIL';
+				}
+
+			//--------------------------------------------------
+			// Setup message
+
 				$this->gateway_url = $this->submission_url_get();
 
 				$body_xml = $request->request_body_get_xml();
@@ -60,9 +64,18 @@
 				$this->_send($message, $request->xsi_path_get());
 
 			//--------------------------------------------------
+			// Validation
+
+				if (isset($this->response_object->Header->MessageDetails->Qualifier)) {
+					$qualifier = strval($this->response_object->Header->MessageDetails->Qualifier);
+				} else {
+					exit_with_error('Invalid response from HMRC', $this->response_string);
+				}
+
+			//--------------------------------------------------
 			// Response
 
-				if (isset($this->response_object->Header->MessageDetails->ResponseEndPoint) && isset($this->response_object->Header->MessageDetails->CorrelationID)) {
+				if ($qualifier == 'acknowledgement') {
 
 					$interval = strval($this->response_object->Header->MessageDetails->ResponseEndPoint['PollInterval']);
 
@@ -87,9 +100,17 @@
 		public function request_list($message_class) {
 
 			//--------------------------------------------------
-			// Setup message
+			// Message class
 
 				$this->message_class = $message_class;
+
+				if ($this->gateway_test) {
+					$this->message_class .= '-TIL';
+				}
+
+			//--------------------------------------------------
+			// Setup message
+
 				$this->gateway_url = $this->submission_url_get();
 
 				$body_xml = ''; // or could be '<IncludeIdentifiers>1</IncludeIdentifiers>'
@@ -256,7 +277,7 @@
 
 				$this->message_transation = str_replace('.', '', microtime(true)); // uniqid();
 
-				$message->message_class_set($this->message_class_get());
+				$message->message_class_set($this->message_class);
 				$message->message_transation_set($this->message_transation);
 
 				$message_xml = $message->xml_get();
@@ -284,9 +305,6 @@
 					$message_xml = str_replace($matches[0], $matches[1] . $message_irmark . $matches[2], $message_xml);
 
 				}
-
-header('Content-Type: text/xml; charset=UTF-8');
-exit($message_xml);
 
 			//--------------------------------------------------
 			// Validation
