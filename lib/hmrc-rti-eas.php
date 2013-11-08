@@ -31,8 +31,7 @@
 			$namespace = 'http://www.govtalk.gov.uk/taxation/PAYE/RTI/EmployerAlignmentSubmission/3';
 
 			$xml = '
-					<IRenvelope xmlns="' . xml($namespace) . '">
-						' . $this->request_header_get_xml() . '
+					<IRenvelope xmlns="' . xml($namespace) . '">' . $this->request_header_get_xml() . '
 						<EmployerAlignmentSubmission>
 							<EmpRefs>
 								<OfficeNo>' . xml($this->details['tax_office_number']) . '</OfficeNo>

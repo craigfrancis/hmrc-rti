@@ -60,8 +60,7 @@
 			$period_range = $period_range . '-' . ($period_range + 1);
 
 			$xml = '
-					<IRenvelope xmlns="' . xml($namespace) . '">
-						' . $this->request_header_get_xml() . '
+					<IRenvelope xmlns="' . xml($namespace) . '">' . $this->request_header_get_xml() . '
 						<FullPaymentSubmission>
 							<EmpRefs>
 								<OfficeNo>' . xml($this->details['tax_office_number']) . '</OfficeNo>

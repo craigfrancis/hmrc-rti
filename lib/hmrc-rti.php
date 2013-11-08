@@ -25,7 +25,8 @@
 
 			$period_end = ($this->details['year'] + 1) . '-04-05';
 
-			$xml = '<IRheader>
+			$xml = '
+						<IRheader>
 							<Keys>';
 
 			foreach ($this->message_keys_get() as $key_name => $key_value) {
