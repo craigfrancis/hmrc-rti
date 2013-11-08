@@ -316,7 +316,7 @@
 					$this->log_db->insert($this->log_table_sql, array(
 							'request_url' => $this->gateway_url,
 							'request_xml' => $message_xml,
-							'request_correlation' => $message_correlation,
+							'request_correlation' => strval($message_correlation), // Not NULL
 							'request_date' => date('Y-m-d H:i:s'),
 						));
 
