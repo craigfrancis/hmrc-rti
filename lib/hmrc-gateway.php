@@ -6,7 +6,6 @@
 		private $gateway_test = false; // aka "Test in live"
 		private $gateway_url = NULL;
 		private $message_class = NULL;
-		private $message_keys = array();
 		private $message_transation = NULL;
 		private $sender_name = NULL;
 		private $sender_pass = NULL;
@@ -31,10 +30,6 @@
 			return $this->message_class . ($this->gateway_test ? '-TIL' : '');
 		}
 
-		public function message_key_add($name, $value) {
-			$this->message_keys[$name] = $value;
-		}
-
 		public function sender_set($sender_name, $sender_pass, $sender_email) {
 			$this->sender_name = $sender_name;
 			$this->sender_pass = $sender_pass;
@@ -46,8 +41,6 @@
 			//--------------------------------------------------
 			// Setup message
 
-				$request->message_keys_set($this->message_keys);
-
 				$this->message_class = $request->message_class_get();
 				$this->gateway_url = $this->submission_url_get();
 
@@ -57,7 +50,7 @@
 				$message->message_qualifier_set('request');
 				$message->message_function_set('submit');
 				$message->message_live_set($this->gateway_live);
-				$message->message_keys_set($this->message_keys);
+				$message->message_keys_set($request->message_keys_get());
 				$message->sender_set($this->sender_name, $this->sender_pass, $this->sender_email);
 				$message->body_set_xml($body_xml);
 
@@ -292,8 +285,8 @@
 
 				}
 
-// header('Content-Type: text/xml; charset=UTF-8');
-// exit($message_xml);
+header('Content-Type: text/xml; charset=UTF-8');
+exit($message_xml);
 
 			//--------------------------------------------------
 			// Validation

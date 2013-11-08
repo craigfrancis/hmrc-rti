@@ -35,8 +35,8 @@
 						' . $this->request_header_get_xml() . '
 						<EmployerAlignmentSubmission>
 							<EmpRefs>
-								<OfficeNo>' . xml($this->message_keys['TaxOfficeNumber']) . '</OfficeNo>
-								<PayeRef>' . xml($this->message_keys['TaxOfficeReference']) . '</PayeRef>
+								<OfficeNo>' . xml($this->details['tax_office_number']) . '</OfficeNo>
+								<PayeRef>' . xml($this->details['tax_office_reference']) . '</PayeRef>
 								<AORef>' . xml($this->details['accounts_office_reference']) . '</AORef>';
 
 			if ($this->details['year'] >= 2014) {

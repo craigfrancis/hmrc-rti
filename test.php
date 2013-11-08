@@ -36,8 +36,6 @@
 	$hmrc_gateway = new hmrc_gateway();
 	$hmrc_gateway->live_set(false, true);
 	$hmrc_gateway->sender_set($config_sender_name, $config_sender_pass, $config_sender_email);
-	$hmrc_gateway->message_key_add('TaxOfficeNumber', $config_tax_office_number);
-	$hmrc_gateway->message_key_add('TaxOfficeReference', $config_tax_office_reference);
 
 //--------------------------------------------------
 // Example employee
@@ -128,11 +126,13 @@
 //--------------------------------------------------
 // Create request
 
-	$hmrc_rti = new hmrc_rti_fps();
-	// $hmrc_rti = new hmrc_rti_eas();
+	$hmrc_rti = new hmrc_rti_eas();
+	// $hmrc_rti = new hmrc_rti_fps();
 
 	$hmrc_rti->details_set(array(
 			'year' => 2013,
+			'tax_office_number' => $config_tax_office_number,
+			'tax_office_reference' => $config_tax_office_reference,
 			'accounts_office_reference' => $config_accounts_office_reference,
 			'corporation_tax_reference' => $config_corporation_tax_reference,
 		));
