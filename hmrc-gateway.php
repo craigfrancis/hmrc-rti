@@ -2,6 +2,8 @@
 
 	class hmrc_gateway extends check {
 
+		private $log_db = NULL;
+		private $log_table_sql = NULL;
 		private $gateway_live = false;
 		private $gateway_test = false; // aka "Test in live"
 		private $gateway_url = NULL;
@@ -22,6 +24,11 @@
 		public function live_set($live_server, $live_run) {
 			$this->gateway_live = $live_server;
 			$this->gateway_test = (!$live_run);
+		}
+
+		public function log_table_set($db, $table) {
+			$this->log_db = $db;
+			$this->log_table_sql = $db->escape_table($table);
 		}
 
 		public function submission_url_get() {
@@ -300,6 +307,24 @@
 				}
 
 			//--------------------------------------------------
+			// Log create
+
+				if ($this->log_table_sql) {
+
+					$db->insert($this->log_table_sql, array(
+							'request_url' => $this->gateway_url,
+							'request_xml' => $message_xml,
+							'request_date' => date('Y-m-d H:i:s'),
+						));
+
+					$log_id = $this->log_db->insert_id();
+
+					$log_where_sql = '
+						id = "' . $this->log_db->escape($log_id) . '"';
+
+				}
+
+			//--------------------------------------------------
 			// Setup socket - similar to curl
 
 				$socket = new socket();
@@ -343,6 +368,18 @@
 				$this->response_object = simplexml_load_string($this->response_string);
 
 			//--------------------------------------------------
+			// Update log
+
+				if ($this->log_table_sql) {
+
+					$db->update($this->log_table_sql, array(
+							'response_xml' => $this->response_string,
+							'response_date' => date('Y-m-d H:i:s'),
+						), $log_where_sql);
+
+				}
+
+			//--------------------------------------------------
 			// Extract details
 
 				if (isset($this->response_object->Header->MessageDetails->Qualifier)) {
@@ -355,6 +392,18 @@
 					$this->response_correlation = strval($this->response_object->Header->MessageDetails->CorrelationID);
 				} else {
 					exit_with_error('Invalid response from HMRC (correlation)', $this->response_string);
+				}
+
+			//--------------------------------------------------
+			// Update log (additional details)
+
+				if ($this->log_table_sql) {
+
+					$db->update($this->log_table_sql, array(
+							'response_qualifier' => $this->response_qualifier,
+							'response_correlation' => $this->response_correlation,
+						), $log_where_sql);
+
 				}
 
 			//--------------------------------------------------
