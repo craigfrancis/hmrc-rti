@@ -35,6 +35,7 @@
 
 	$hmrc_gateway = new hmrc_gateway();
 	$hmrc_gateway->live_set(false, true);
+	$hmrc_gateway->log_table_set($db, DB_PREFIX . 'table_name');
 	$hmrc_gateway->sender_set($config_sender_name, $config_sender_pass, $config_sender_email);
 
 //--------------------------------------------------
