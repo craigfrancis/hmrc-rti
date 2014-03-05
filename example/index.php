@@ -81,13 +81,13 @@
 			'ni_gross_nics_pd'  => '4000.00', // Gross earnings for NICs in this period.
 			'ni_gross_nics_ytd' => '8000.00', // Gross earnings for NICs year to date.
 
+			'ni_total_nic_pd'  => '465.88',  // Total of employer NI Contributions in this period.
+			'ni_total_nic_ytd' => '931.76',  // Total of employer NI contributions year to date.
+
 			'ni_total_lel_ytd' => '928.00',  // Value of Earnings at Lower Earnings Limit Year to Date.
 			'ni_total_pt_ytd'  => '340.00',  // Value of Earnings above Lower Earnings Limit to Primary Threshold Year to Date.
 			'ni_total_uap_ytd' => '5406.00', // Value of Earnings from the Primary Threshold to Upper Accrual Point Year to Date.
 			'ni_total_uel_ytd' => '406.00',  // Value of Earnings from Upper Accrual Point up to Upper Earnings Limit Year to Date.
-
-			'ni_total_nic_pd'  => '465.88',  // Total of employer NI Contributions in this period.
-			'ni_total_nic_ytd' => '931.76',  // Total of employer NI contributions year to date.
 
 			'ni_total_contribution_pd'  => '0.00', // Employees contributions due on all earnings in this pay period.
 			'ni_total_contribution_ytd' => '0.00', // Employees contributions due on all earnings year to date.
