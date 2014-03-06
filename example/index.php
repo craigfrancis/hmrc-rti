@@ -71,7 +71,7 @@
 			'payment_date'      => '2013-05-31', // Payment date
 			'payment_month'     => '2',          // Monthly period number
 			'payment_periods'   => '1',          // Number of earnings periods covered by payment
-			'payment_hours'     => 'B',          // Number of normal hours worked (A, B = 16+ 23.99 hours, C = 24+ hours, D = 30+ hours, E = Other)
+			'payment_hours'     => '37.5',       // Number of normal hours worked (A, B = 16+ 23.99 hours, C = 24+ hours, D = 30+ hours, E = Other)
 			'payment_tax_code'  => '810L',       // Tax code and basis
 			'payment_taxable'   => '4000.00',    // Taxable pay in this pay period including payrolled benefits in kind
 			'payment_tax'       => '756.76',     // Value of tax deducted or refunded from this payment

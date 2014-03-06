@@ -59,6 +59,19 @@
 			$period_range = substr($this->details['year'], -2);
 			$period_range = $period_range . '-' . ($period_range + 1);
 
+			if ($this->details['year'] == 2013) {
+				if ($employee['payment_hours'] < 16) $payment_hours = 'A';
+				else if ($employee['payment_hours'] < 30) $payment_hours = 'B';
+				else if ($employee['payment_hours'] < 53) $payment_hours = 'C';
+				else $payment_hours = 'D';
+			} else {
+				if ($employee['payment_hours'] < 16) $payment_hours = 'A';
+				else if ($employee['payment_hours'] < 24) $payment_hours = 'B';
+				else if ($employee['payment_hours'] < 30) $payment_hours = 'C';
+				else if ($employee['payment_hours'] < 53) $payment_hours = 'D';
+				else $payment_hours = 'E';
+			}
+
 			$xml = '
 					<IRenvelope xmlns="' . xml($namespace) . '">' . $this->request_header_get_xml() . '
 						<FullPaymentSubmission>
@@ -111,7 +124,7 @@
 										<PmtDate>' . xml($employee['payment_date']) . '</PmtDate>
 										<MonthNo>' . xml($employee['payment_month']) . '</MonthNo>
 										<PeriodsCovered>' . xml($employee['payment_periods']) . '</PeriodsCovered>
-										<HoursWorked>' . xml($employee['payment_hours']) . '</HoursWorked>
+										<HoursWorked>' . xml($payment_hours) . '</HoursWorked>
 										<TaxCode>' . xml($employee['payment_tax_code']) . '</TaxCode>
 										<TaxablePay>' . xml($employee['payment_taxable']) . '</TaxablePay>
 										<TaxDeductedOrRefunded>' . xml($employee['payment_tax']) . '</TaxDeductedOrRefunded>
