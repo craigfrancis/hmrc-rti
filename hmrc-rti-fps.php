@@ -131,16 +131,16 @@
 									</Payment>
 									<NIlettersAndValues>
 										<NIletter>' . xml($employee['ni_letter']) . '</NIletter>
-										<GrossEarningsForNICsInPd>' . xml($employee['ni_gross_nics_pd']) . '</GrossEarningsForNICsInPd>
-										<GrossEarningsForNICsYTD>' . xml($employee['ni_gross_nics_ytd']) . '</GrossEarningsForNICsYTD>
-										<AtLELYTD>' . xml($employee['ni_total_lel_ytd']) . '</AtLELYTD>
-										<LELtoPTYTD>' . xml($employee['ni_total_pt_ytd']) . '</LELtoPTYTD>
-										<PTtoUAPYTD>' . xml($employee['ni_total_uap_ytd']) . '</PTtoUAPYTD>
-										<UAPtoUELYTD>' . xml($employee['ni_total_uel_ytd']) . '</UAPtoUELYTD>
-										<TotalEmpNICInPd>' . xml($employee['ni_total_nic_pd']) . '</TotalEmpNICInPd>
-										<TotalEmpNICYTD>' . xml($employee['ni_total_nic_ytd']) . '</TotalEmpNICYTD>
-										<EmpeeContribnsInPd>' . xml($employee['ni_total_contribution_pd']) . '</EmpeeContribnsInPd>
-										<EmpeeContribnsYTD>' . xml($employee['ni_total_contribution_ytd']) . '</EmpeeContribnsYTD>
+										<GrossEarningsForNICsInPd>' . xml(number_format($employee['ni_gross_nics_pd'],          2, '.', '')) . '</GrossEarningsForNICsInPd>
+										<GrossEarningsForNICsYTD>'  . xml(number_format($employee['ni_gross_nics_ytd'],         2, '.', '')) . '</GrossEarningsForNICsYTD>
+										<AtLELYTD>'                 . xml(number_format($employee['ni_total_lel_ytd'],          2, '.', '')) . '</AtLELYTD>
+										<LELtoPTYTD>'               . xml(number_format($employee['ni_total_pt_ytd'],           2, '.', '')) . '</LELtoPTYTD>
+										<PTtoUAPYTD>'               . xml(number_format($employee['ni_total_uap_ytd'],          2, '.', '')) . '</PTtoUAPYTD>
+										<UAPtoUELYTD>'              . xml(number_format($employee['ni_total_uel_ytd'],          2, '.', '')) . '</UAPtoUELYTD>
+										<TotalEmpNICInPd>'          . xml(number_format($employee['ni_total_nic_pd'],           2, '.', '')) . '</TotalEmpNICInPd>
+										<TotalEmpNICYTD>'           . xml(number_format($employee['ni_total_nic_ytd'],          2, '.', '')) . '</TotalEmpNICYTD>
+										<EmpeeContribnsInPd>'       . xml(number_format($employee['ni_total_contribution_pd'],  2, '.', '')) . '</EmpeeContribnsInPd>
+										<EmpeeContribnsYTD>'        . xml(number_format($employee['ni_total_contribution_ytd'], 2, '.', '')) . '</EmpeeContribnsYTD>
 									</NIlettersAndValues>
 								</Employment>
 							</Employee>';
