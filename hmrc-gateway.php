@@ -160,7 +160,7 @@
 		public function request_poll($request) {
 
 			//--------------------------------------------------
-			// Honnor timeout
+			// Honour timeout
 
 				$timeout = ($request['timeout'] - time());
 				if ($timeout > 0) {

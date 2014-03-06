@@ -67,14 +67,14 @@
 			'to_date_taxable' => '8000.00', // Taxable pay to date in this employment including taxable benefits undertaken through payroll
 			'to_date_tax'     => '756.76',  // Total tax to date in this employment including this submission
 
-			'payment_freqency' => 'M1',         // Pay frequency (e.g. W1 = Weekly, W2 = Fortnightly, W4 = 4 Weekly, M1 = Calendar Monthly, etc)
-			'payment_date'     => '2013-05-31', // Payment date
-			'payment_month'    => '2',          // Monthly period number
-			'payment_periods'  => '1',          // Number of earnings periods covered by payment
-			'payment_hours'    => 'B',          // Number of normal hours worked (A, B = 16+ 23.99 hours, C = 24+ hours, D = 30+ hours, E = Other)
-			'payment_tax_code' => '810L',       // Tax code and basis
-			'payment_taxable'  => '4000.00',    // Taxable pay in this pay period including payrolled benefits in kind
-			'payment_tax'      => '756.76',     // Value of tax deducted or refunded from this payment
+			'payment_frequency' => 'M1',         // Pay frequency (e.g. W1 = Weekly, W2 = Fortnightly, W4 = 4 Weekly, M1 = Calendar Monthly, etc)
+			'payment_date'      => '2013-05-31', // Payment date
+			'payment_month'     => '2',          // Monthly period number
+			'payment_periods'   => '1',          // Number of earnings periods covered by payment
+			'payment_hours'     => 'B',          // Number of normal hours worked (A, B = 16+ 23.99 hours, C = 24+ hours, D = 30+ hours, E = Other)
+			'payment_tax_code'  => '810L',       // Tax code and basis
+			'payment_taxable'   => '4000.00',    // Taxable pay in this pay period including payrolled benefits in kind
+			'payment_tax'       => '756.76',     // Value of tax deducted or refunded from this payment
 
 			'ni_letter' => 'A', // National Insurance Category letter in pay period
 

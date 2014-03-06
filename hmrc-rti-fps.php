@@ -23,7 +23,7 @@
 					'pay_id' => NULL,
 					'to_date_taxable' => NULL,
 					'to_date_tax' => NULL,
-					'payment_freqency' => NULL,
+					'payment_frequency' => NULL,
 					'payment_date' => NULL,
 					'payment_month' => NULL,
 					'payment_periods' => NULL,
@@ -107,7 +107,7 @@
 										<TotalTax>' . xml($employee['to_date_tax']) . '</TotalTax>
 									</FiguresToDate>
 									<Payment>
-										<PayFreq>' . xml($employee['payment_freqency']) . '</PayFreq>
+										<PayFreq>' . xml($employee['payment_frequency']) . '</PayFreq>
 										<PmtDate>' . xml($employee['payment_date']) . '</PmtDate>
 										<MonthNo>' . xml($employee['payment_month']) . '</MonthNo>
 										<PeriodsCovered>' . xml($employee['payment_periods']) . '</PeriodsCovered>
