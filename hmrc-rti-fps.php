@@ -59,19 +59,6 @@
 			$period_range = substr($this->details['year'], -2);
 			$period_range = $period_range . '-' . ($period_range + 1);
 
-			if ($this->details['year'] == 2013) {
-				if ($employee['payment_hours'] < 16) $payment_hours = 'A';
-				else if ($employee['payment_hours'] < 30) $payment_hours = 'B';
-				else if ($employee['payment_hours'] < 53) $payment_hours = 'C';
-				else $payment_hours = 'D';
-			} else {
-				if ($employee['payment_hours'] < 16) $payment_hours = 'A';
-				else if ($employee['payment_hours'] < 24) $payment_hours = 'B';
-				else if ($employee['payment_hours'] < 30) $payment_hours = 'C';
-				else if ($employee['payment_hours'] < 53) $payment_hours = 'D';
-				else $payment_hours = 'E';
-			}
-
 			$xml = '
 					<IRenvelope xmlns="' . xml($namespace) . '">' . $this->request_header_get_xml() . '
 						<FullPaymentSubmission>
@@ -90,6 +77,19 @@
 							<RelatedTaxYear>' . xml($period_range) . '</RelatedTaxYear>';
 
 			foreach ($this->employees as $employee) {
+
+				if ($this->details['year'] == 2013) {
+					if ($employee['payment_hours'] < 16) $payment_hours = 'A';
+					else if ($employee['payment_hours'] < 30) $payment_hours = 'B';
+					else if ($employee['payment_hours'] < 53) $payment_hours = 'C';
+					else $payment_hours = 'D';
+				} else {
+					if ($employee['payment_hours'] < 16) $payment_hours = 'A';
+					else if ($employee['payment_hours'] < 24) $payment_hours = 'B';
+					else if ($employee['payment_hours'] < 30) $payment_hours = 'C';
+					else if ($employee['payment_hours'] < 53) $payment_hours = 'D';
+					else $payment_hours = 'E';
+				}
 
 				$xml .= '
 							<Employee>
