@@ -15,6 +15,7 @@
 
 			$this->details = array_merge(array(
 					'year' => NULL,
+					'final' => NULL,
 					'currency' => 'GBP',
 					'sender' => 'Employer',
 				), $details);

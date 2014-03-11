@@ -136,6 +136,7 @@
 
 	$hmrc_rti->details_set(array(
 			'year' => 2013,
+			'final' => false,
 			'tax_office_number' => $config_tax_office_number,
 			'tax_office_reference' => $config_tax_office_reference,
 			'accounts_office_reference' => $config_accounts_office_reference,

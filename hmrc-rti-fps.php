@@ -147,6 +147,15 @@
 
 			}
 
+			if ($this->details['final'] === true) {
+
+				$xml .= '
+							<FinalSubmission>
+								<ForYear>yes</ForYear>
+							</FinalSubmission>';
+
+			}
+
 			$xml .= '
 						</FullPaymentSubmission>
 					</IRenvelope>';
