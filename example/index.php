@@ -97,6 +97,24 @@
 		);
 
 //--------------------------------------------------
+// Final submission information
+
+	$final = false;
+
+	if ($final) {
+
+		$final = array(
+				'free_of_tax_payments'         => false, // true if you made any payments to any employees while they were employed by you where you paid their tax on their behalf.
+				'expenses_and_benefits'        => false, // true if anyone, other than you, paid expenses or provided benefits to any of your employees during the year as a result of the employee working for you, and while they were employed by you.
+				'employees_out_of_uk'          => false, // true if anyone employed by a person or company outside the UK worked for you in the UK for 30 or more days in a row.
+				'employees_pay_to_third_party' => false, // true if you have paid any of an employee's pay to someone other than the employee, for example, paying school fees directly to a school - but note that this does not include Attachment of Earnings Orders, payments to the Child Support Agency and Salary Sacrifice arrangements.
+				'p11d_forms_due'               => false, // true if any completed forms P11D and P11D(b) are due for the year.
+				'service_company'              => false, // true if you are a service company - 'service company' includes a limited company, a limited liability partnership or a partnership (but not a sole trader) - and have operated the Intermediaries legislation (Chapter 8, Part 2, Income Tax (Earnings and Pensions) Act 2003 (ITEPA), sometimes known as IR35).
+			);
+
+	}
+
+//--------------------------------------------------
 // Delete requests
 
 	// $requests = $hmrc_gateway->request_list('HMRC-PAYE-RTI-EAS');
@@ -136,7 +154,7 @@
 
 	$hmrc_rti->details_set(array(
 			'year' => 2013,
-			'final' => false,
+			'final' => $final,
 			'tax_office_number' => $config_tax_office_number,
 			'tax_office_reference' => $config_tax_office_reference,
 			'accounts_office_reference' => $config_accounts_office_reference,

@@ -147,12 +147,24 @@
 
 			}
 
-			if ($this->details['final'] === true) {
+			if (is_array($this->details['final'])) {
 
 				$xml .= '
 							<FinalSubmission>
 								<ForYear>yes</ForYear>
-							</FinalSubmission>';
+							</FinalSubmission>
+							<QuestionsAndDeclarations>
+								<FreeOfTaxPaymentsMadeToEmployee>'              . xml($this->details['final']['free_of_tax_payments']         ? 'yes' : 'no') . '</FreeOfTaxPaymentsMadeToEmployee>
+								<ExpensesVouchersOrBenefitsFromOthers>'         . xml($this->details['final']['expenses_and_benefits']        ? 'yes' : 'no') . '</ExpensesVouchersOrBenefitsFromOthers>
+								<PersonEmployedOutsideUKWorkedFor30DaysOrMore>' . xml($this->details['final']['employees_out_of_uk']          ? 'yes' : 'no') . '</PersonEmployedOutsideUKWorkedFor30DaysOrMore>
+								<PayToSomeoneElse>'                             . xml($this->details['final']['employees_pay_to_third_party'] ? 'yes' : 'no') . '</PayToSomeoneElse>
+								<P11DFormsDue>'                                 . xml($this->details['final']['p11d_forms_due']               ? 'yes' : 'no') . '</P11DFormsDue>
+								<ServiceCompany>'                               . xml($this->details['final']['service_company']              ? 'yes' : 'no') . '</ServiceCompany>
+							</QuestionsAndDeclarations>';
+
+			} else if ($this->details['final'] !== false) {
+
+				exit_with_error('Invalid "final" value (should be false, or an array)');
 
 			}
 
