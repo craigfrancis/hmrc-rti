@@ -104,12 +104,22 @@
 	if ($final) {
 
 		$final = array(
+
 				'free_of_tax_payments'         => false, // true if you made any payments to any employees while they were employed by you where you paid their tax on their behalf.
 				'expenses_and_benefits'        => false, // true if anyone, other than you, paid expenses or provided benefits to any of your employees during the year as a result of the employee working for you, and while they were employed by you.
 				'employees_out_of_uk'          => false, // true if anyone employed by a person or company outside the UK worked for you in the UK for 30 or more days in a row.
 				'employees_pay_to_third_party' => false, // true if you have paid any of an employee's pay to someone other than the employee, for example, paying school fees directly to a school - but note that this does not include Attachment of Earnings Orders, payments to the Child Support Agency and Salary Sacrifice arrangements.
 				'p11d_forms_due'               => false, // true if any completed forms P11D and P11D(b) are due for the year.
-				'service_company'              => false, // true if you are a service company - 'service company' includes a limited company, a limited liability partnership or a partnership (but not a sole trader) - and have operated the Intermediaries legislation (Chapter 8, Part 2, Income Tax (Earnings and Pensions) Act 2003 (ITEPA), sometimes known as IR35).
+				'service_company'              => true,  // true if you are a service company - 'service company' includes a limited company, a limited liability partnership or a partnership (but not a sole trader) - and have operated the Intermediaries legislation (Chapter 8, Part 2, Income Tax (Earnings and Pensions) Act 2003 (ITEPA), sometimes known as IR35).
+
+					// http://webarchive.nationalarchives.gov.uk/+/http://www.hmrc.gov.uk/employers/2007-08-P35-Quest-6.htm
+					// Question 6 should be answered yes if:
+					// - an individual personally performs services for a client and the services are provided not
+					//   under a contract directly between the client and the worker but under arrangements involving
+					//   the limited company, limited liability partnership or general partnership (the service company).
+					// - the limited company, limited liability partnership or general partnership's (the service company)
+					//   business consists wholly or mainly of providing the services of individuals to clients.
+
 			);
 
 	}
