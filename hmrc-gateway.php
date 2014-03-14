@@ -9,6 +9,8 @@
 		private $gateway_url = NULL;
 		private $message_class = NULL;
 		private $message_transation = NULL;
+		private $vendor_code = NULL;
+		private $vendor_name = NULL;
 		private $sender_name = NULL;
 		private $sender_pass = NULL;
 		private $sender_email = NULL;
@@ -34,6 +36,11 @@
 
 		public function submission_url_get() {
 			return ($this->gateway_live ? 'https://secure.gateway.gov.uk/submission' : 'https://secure.dev.gateway.gov.uk/submission');
+		}
+
+		public function vendor_set($vendor_code, $vendor_name) {
+			$this->vendor_code = $vendor_code;
+			$this->vendor_name = $vendor_name;
 		}
 
 		public function sender_set($sender_name, $sender_pass, $sender_email) {
@@ -65,6 +72,7 @@
 				$message->message_function_set('submit');
 				$message->message_live_set($this->gateway_live);
 				$message->message_keys_set($request->message_keys_get());
+				$message->vendor_set($this->vendor_code, $this->vendor_name);
 				$message->sender_set($this->sender_name, $this->sender_pass, $this->sender_email);
 				$message->body_set_xml($body_xml);
 
@@ -120,6 +128,7 @@
 				$message->message_qualifier_set('request');
 				$message->message_function_set('list');
 				$message->message_live_set($this->gateway_live);
+				$message->vendor_set($this->vendor_code, $this->vendor_name);
 				$message->sender_set($this->sender_name, $this->sender_pass, $this->sender_email);
 				$message->body_set_xml($body_xml);
 

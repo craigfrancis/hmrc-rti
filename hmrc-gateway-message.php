@@ -9,6 +9,8 @@
 		private $message_transation = NULL;
 		private $message_correlation = NULL;
 		private $message_keys = array();
+		private $vendor_code = NULL;
+		private $vendor_name = NULL;
 		private $sender_name = NULL;
 		private $sender_pass = NULL;
 		private $sender_email = NULL;
@@ -47,6 +49,11 @@
 
 		public function message_keys_set($message_keys) {
 			$this->message_keys = $message_keys;
+		}
+
+		public function vendor_set($vendor_code, $vendor_name) {
+			$this->vendor_code = $vendor_code;
+			$this->vendor_name = $vendor_name;
 		}
 
 		public function sender_set($sender_name, $sender_pass, $sender_email) {
@@ -114,6 +121,14 @@
 
 			$xml .= '
 							</Keys>
+							<ChannelRouting>
+								<Channel>
+									<URI>' . xml($this->vendor_code) . '</URI>
+									<Product>' . xml($this->vendor_name) . '</Product>
+									<Version>1</Version>
+								</Channel>
+								<Timestamp>' . xml(date('Y-m-d\TH:i:s')) . '</Timestamp>
+							</ChannelRouting>
 						</GovTalkDetails>
 						<Body>' . $this->body_xml . '</Body>
 					</GovTalkMessage>';
