@@ -68,12 +68,12 @@
 				$body_xml = $request->request_body_get_xml();
 
 				$message = new hmrc_gateway_message();
+				$message->vendor_set($this->vendor_code, $this->vendor_name);
+				$message->sender_set($this->sender_name, $this->sender_pass, $this->sender_email);
 				$message->message_qualifier_set('request');
 				$message->message_function_set('submit');
 				$message->message_live_set($this->gateway_live);
 				$message->message_keys_set($request->message_keys_get());
-				$message->vendor_set($this->vendor_code, $this->vendor_name);
-				$message->sender_set($this->sender_name, $this->sender_pass, $this->sender_email);
 				$message->body_set_xml($body_xml);
 
 			//--------------------------------------------------
@@ -125,11 +125,11 @@
 				$body_xml = ''; // or could be '<IncludeIdentifiers>1</IncludeIdentifiers>'
 
 				$message = new hmrc_gateway_message();
+				$message->vendor_set($this->vendor_code, $this->vendor_name);
+				$message->sender_set($this->sender_name, $this->sender_pass, $this->sender_email);
 				$message->message_qualifier_set('request');
 				$message->message_function_set('list');
 				$message->message_live_set($this->gateway_live);
-				$message->vendor_set($this->vendor_code, $this->vendor_name);
-				$message->sender_set($this->sender_name, $this->sender_pass, $this->sender_email);
 				$message->body_set_xml($body_xml);
 
 			//--------------------------------------------------
@@ -183,6 +183,7 @@
 				$this->gateway_url = $request['endpoint'];
 
 				$message = new hmrc_gateway_message();
+				$message->vendor_set($this->vendor_code, $this->vendor_name);
 				$message->message_qualifier_set('poll');
 				$message->message_function_set('submit');
 				$message->message_correlation_set($request['correlation']);
@@ -242,6 +243,7 @@
 				$this->gateway_url = $this->submission_url_get();
 
 				$message = new hmrc_gateway_message();
+				$message->vendor_set($this->vendor_code, $this->vendor_name);
 				$message->message_qualifier_set('request');
 				$message->message_function_set('delete');
 				$message->message_live_set($this->gateway_live);
