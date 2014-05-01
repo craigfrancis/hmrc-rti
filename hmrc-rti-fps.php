@@ -67,7 +67,7 @@
 								<PayeRef>' . xml($this->details['tax_office_reference']) . '</PayeRef>
 								<AORef>' . xml($this->details['accounts_office_reference']) . '</AORef>';
 
-			if ($this->details['year'] >= 2014) {
+			if ($this->details['corporation_tax_reference'] != '' && $this->details['year'] >= 2014) {
 				$xml .= '
 								<COTAXRef>' . xml($this->details['corporation_tax_reference']) . '</COTAXRef>';
 			}
