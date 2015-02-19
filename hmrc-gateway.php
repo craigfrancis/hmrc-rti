@@ -17,6 +17,7 @@
 		private $response_code = NULL;
 		private $response_string = NULL;
 		private $response_object = NULL;
+		private $response_debug = NULL;
 		private $response_qualifier = NULL;
 		private $response_function = NULL;
 		private $response_correlation = NULL;
@@ -100,7 +101,7 @@
 
 				} else {
 
-					exit_with_error('Invalid response from HMRC', $this->response_string);
+					exit_with_error('Invalid response from HMRC', $this->response_debug);
 
 				}
 
@@ -158,7 +159,7 @@
 					}
 				} else {
 
-					exit_with_error('Invalid response from HMRC', $this->response_string);
+					exit_with_error('Invalid response from HMRC', $this->response_debug);
 
 				}
 
@@ -198,7 +199,7 @@
 
 				if ($this->response_qualifier == 'error') {
 
-					exit_with_error('Error from gateway "' . $this->response_object->Body->ErrorResponse->Error->Text . '"', $this->response_string);
+					exit_with_error('Error from gateway "' . $this->response_object->Body->ErrorResponse->Error->Text . '"', $this->response_debug);
 
 				} else if ($this->response_qualifier == 'acknowledgement') {
 
@@ -228,7 +229,7 @@
 
 				} else {
 
-					exit_with_error('Invalid qualifier from HMRC', $this->response_string);
+					exit_with_error('Invalid qualifier from HMRC', $this->response_debug);
 
 				}
 
@@ -258,7 +259,7 @@
 			// Verify
 
 				if ($this->response_correlation != $request['correlation']) {
-					exit_with_error('Did not delete correlation "' . $request['correlation'] . '"', $this->response_string);
+					exit_with_error('Did not delete correlation "' . $request['correlation'] . '"', $this->response_debug);
 				}
 
 		}
@@ -385,6 +386,7 @@
 
 				$this->response_string = $socket->response_data_get();
 				$this->response_object = simplexml_load_string($this->response_string);
+				$this->response_debug = $this->gateway_url . "\n\n" . $message_xml . "\n\n" . $this->response_string;
 
 			//--------------------------------------------------
 			// Update log
@@ -404,19 +406,19 @@
 				if (isset($this->response_object->Header->MessageDetails->Qualifier)) {
 					$this->response_qualifier = strval($this->response_object->Header->MessageDetails->Qualifier);
 				} else {
-					exit_with_error('Invalid response from HMRC (qualifier)', $this->response_string);
+					exit_with_error('Invalid response from HMRC (qualifier)', $this->response_debug);
 				}
 
 				if (isset($this->response_object->Header->MessageDetails->Function)) {
 					$this->response_function = strval($this->response_object->Header->MessageDetails->Function);
 				} else {
-					exit_with_error('Invalid response from HMRC (function)', $this->response_string);
+					exit_with_error('Invalid response from HMRC (function)', $this->response_debug);
 				}
 
 				if (isset($this->response_object->Header->MessageDetails->CorrelationID)) {
 					$this->response_correlation = strval($this->response_object->Header->MessageDetails->CorrelationID);
 				} else {
-					exit_with_error('Invalid response from HMRC (correlation)', $this->response_string);
+					exit_with_error('Invalid response from HMRC (correlation)', $this->response_debug);
 				}
 
 			//--------------------------------------------------
@@ -436,7 +438,7 @@
 			// Check correlation
 
 				if ($message_correlation !== NULL && $this->response_correlation != $message_correlation) {
-					exit_with_error('Invalid response correlation "' . $message_correlation . '"', $this->response_string);
+					exit_with_error('Invalid response correlation "' . $message_correlation . '"', $this->response_debug);
 				}
 
 		}
