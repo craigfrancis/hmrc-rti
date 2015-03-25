@@ -17,7 +17,9 @@
 			if ($this->details['year'] == 2013) {
 				$namespace = 'http://www.govtalk.gov.uk/taxation/PAYE/RTI/EmployerPaymentSummary/13-14/2';
 			} else if ($this->details['year'] == 2014) {
-				$namespace = 'http://www.govtalk.gov.uk/taxation/PAYE/RTI/EmployerPaymentSummary/14-15/4';
+				$namespace = 'http://www.govtalk.gov.uk/taxation/PAYE/RTI/EmployerPaymentSummary/14-15/1';
+			} else if ($this->details['year'] == 2015) {
+				$namespace = 'http://www.govtalk.gov.uk/taxation/PAYE/RTI/EmployerPaymentSummary/15-16/1';
 			} else {
 				exit_with_error('Namespace is unknown for year ' . $this->details['year']);
 			}
@@ -52,13 +54,13 @@
 							<RecoverableAmountsYTD>
 								<SSPRecovered>'          . xml($this->details['XXX']) . '</SSPRecovered>
 								<SMPRecovered>'          . xml($this->details['XXX']) . '</SMPRecovered>
-								<OSPPRecovered>'         . xml($this->details['XXX']) . '</OSPPRecovered>
+								<SPPRecovered>'          . xml($this->details['XXX']) . '</SPPRecovered>
 								<SAPRecovered>'          . xml($this->details['XXX']) . '</SAPRecovered>
-								<ASPPRecovered>'         . xml($this->details['XXX']) . '</ASPPRecovered>
+								<ShPPRecovered>'         . xml($this->details['XXX']) . '</ShPPRecovered>
 								<NICCompensationOnSMP>'  . xml($this->details['XXX']) . '</NICCompensationOnSMP>
-								<NICCompensationOnOSPP>' . xml($this->details['XXX']) . '</NICCompensationOnOSPP>
+								<NICCompensationOnSPP>'  . xml($this->details['XXX']) . '</NICCompensationOnSPP>
 								<NICCompensationOnSAP>'  . xml($this->details['XXX']) . '</NICCompensationOnSAP>
-								<NICCompensationOnASPP>' . xml($this->details['XXX']) . '</NICCompensationOnASPP>
+								<NICCompensationOnShPP>' . xml($this->details['XXX']) . '</NICCompensationOnShPP>
 								<CISDeductionsSuffered>' . xml($this->details['XXX']) . '</CISDeductionsSuffered>
 								<NICsHoliday>'           . xml($this->details['XXX']) . '</NICsHoliday>
 							</RecoverableAmountsYTD>';
