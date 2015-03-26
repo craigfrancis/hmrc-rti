@@ -349,7 +349,7 @@
 
 				$socket = new socket();
 				$socket->exit_on_error_set(false);
-				$socket->header_add('Content-Type', 'text/xml; charset=' . head(config::get('output.charset')));
+				$socket->header_set('Content-Type', 'text/xml; charset=' . head(config::get('output.charset')));
 
 			//--------------------------------------------------
 			// Send request
