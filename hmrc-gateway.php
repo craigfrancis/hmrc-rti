@@ -360,7 +360,7 @@
 				$send_result = $socket->post($this->gateway_url, $message_xml);
 
 				if (!$send_result) {
-					exit_with_error('Could not connect to HMRC', $socket->error_string_get());
+					exit_with_error('Could not connect to HMRC', $socket->error_message_get());
 				}
 
 				if ($socket->response_code_get() != 200) {
