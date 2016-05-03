@@ -20,6 +20,8 @@
 				$namespace = 'http://www.govtalk.gov.uk/taxation/PAYE/RTI/EmployerPaymentSummary/14-15/1';
 			} else if ($this->details['year'] == 2015) {
 				$namespace = 'http://www.govtalk.gov.uk/taxation/PAYE/RTI/EmployerPaymentSummary/15-16/1';
+			} else if ($this->details['year'] == 2016) {
+				$namespace = 'http://www.govtalk.gov.uk/taxation/PAYE/RTI/EmployerPaymentSummary/16-17/1';
 			} else {
 				exit_with_error('Namespace is unknown for year ' . $this->details['year']);
 			}
@@ -75,7 +77,11 @@
 				$xml .= '
 							<FinalSubmission>
 								<ForYear>yes</ForYear>
-							</FinalSubmission>
+							</FinalSubmission>';
+
+				if ($this->details['year'] < 2016) {
+
+					$xml .= '
 							<QuestionsAndDeclarations>
 								<FreeOfTaxPaymentsMadeToEmployee>'              . xml($this->details['final']['free_of_tax_payments']         ? 'yes' : 'no') . '</FreeOfTaxPaymentsMadeToEmployee>
 								<ExpensesVouchersOrBenefitsFromOthers>'         . xml($this->details['final']['expenses_and_benefits']        ? 'yes' : 'no') . '</ExpensesVouchersOrBenefitsFromOthers>
@@ -84,6 +90,8 @@
 								<P11DFormsDue>'                                 . xml($this->details['final']['p11d_forms_due']               ? 'yes' : 'no') . '</P11DFormsDue>
 								<ServiceCompany>'                               . xml($this->details['final']['service_company']              ? 'yes' : 'no') . '</ServiceCompany>
 							</QuestionsAndDeclarations>';
+
+				}
 
 			} else if ($this->details['final'] !== false) {
 

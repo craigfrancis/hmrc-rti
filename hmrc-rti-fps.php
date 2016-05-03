@@ -54,6 +54,8 @@
 				$namespace = 'http://www.govtalk.gov.uk/taxation/PAYE/RTI/FullPaymentSubmission/14-15/4';
 			} else if ($this->details['year'] == 2015) {
 				$namespace = 'http://www.govtalk.gov.uk/taxation/PAYE/RTI/FullPaymentSubmission/15-16/1';
+			} else if ($this->details['year'] == 2016) {
+				$namespace = 'http://www.govtalk.gov.uk/taxation/PAYE/RTI/FullPaymentSubmission/16-17/2';
 			} else {
 				exit_with_error('Namespace is unknown for year ' . $this->details['year']);
 			}
@@ -129,7 +131,16 @@
 										<HoursWorked>' . xml($payment_hours) . '</HoursWorked>
 										<TaxCode>' . xml($employee['payment_tax_code']) . '</TaxCode>
 										<TaxablePay>' . xml($employee['payment_taxable']) . '</TaxablePay>
-										<TaxDeductedOrRefunded>' . xml($employee['payment_tax']) . '</TaxDeductedOrRefunded>
+										<TaxDeductedOrRefunded>' . xml($employee['payment_tax']) . '</TaxDeductedOrRefunded>';
+
+										// <FlexibleDrawdown>
+										// 	<FlexiblyAccessingPensionRights>yes</FlexiblyAccessingPensionRights>
+										// 	<PensionDeathBenefit>yes</PensionDeathBenefit>
+										// 	<TaxablePayment>600.00</TaxablePayment>
+										// 	<NontaxablePayment>1200.00</NontaxablePayment>
+										// </FlexibleDrawdown>
+
+						$xml .= '
 									</Payment>
 									<NIlettersAndValues>
 										<NIletter>' . xml($employee['ni_letter']) . '</NIletter>
@@ -154,7 +165,11 @@
 				$xml .= '
 							<FinalSubmission>
 								<ForYear>yes</ForYear>
-							</FinalSubmission>
+							</FinalSubmission>';
+
+				if ($this->details['year'] < 2016) {
+
+					$xml .= '
 							<QuestionsAndDeclarations>
 								<FreeOfTaxPaymentsMadeToEmployee>'              . xml($this->details['final']['free_of_tax_payments']         ? 'yes' : 'no') . '</FreeOfTaxPaymentsMadeToEmployee>
 								<ExpensesVouchersOrBenefitsFromOthers>'         . xml($this->details['final']['expenses_and_benefits']        ? 'yes' : 'no') . '</ExpensesVouchersOrBenefitsFromOthers>
@@ -163,6 +178,8 @@
 								<P11DFormsDue>'                                 . xml($this->details['final']['p11d_forms_due']               ? 'yes' : 'no') . '</P11DFormsDue>
 								<ServiceCompany>'                               . xml($this->details['final']['service_company']              ? 'yes' : 'no') . '</ServiceCompany>
 							</QuestionsAndDeclarations>';
+
+				}
 
 			} else if ($this->details['final'] !== false) {
 
