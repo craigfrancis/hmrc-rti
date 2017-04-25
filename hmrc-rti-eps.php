@@ -22,6 +22,8 @@
 				$namespace = 'http://www.govtalk.gov.uk/taxation/PAYE/RTI/EmployerPaymentSummary/15-16/1';
 			} else if ($this->details['year'] == 2016) {
 				$namespace = 'http://www.govtalk.gov.uk/taxation/PAYE/RTI/EmployerPaymentSummary/16-17/1';
+			} else if ($this->details['year'] == 2017) {
+				$namespace = 'http://www.govtalk.gov.uk/taxation/PAYE/RTI/EmployerPaymentSummary/17-18/1';
 			} else {
 				exit_with_error('Namespace is unknown for year ' . $this->details['year']);
 			}
@@ -68,6 +70,12 @@
 							</RecoverableAmountsYTD>';
 
 			}
+
+			// <ApprenticeshipLevy>
+			// 	<LevyDueYTD>1250.00</LevyDueYTD>
+			// 	<TaxMonth>3</TaxMonth>
+			// 	<AnnualAllce>15000.00</AnnualAllce>
+			// </ApprenticeshipLevy>
 
 			$xml .= '
 							<RelatedTaxYear>' . xml($period_range) . '</RelatedTaxYear>';
