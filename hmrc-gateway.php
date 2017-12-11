@@ -37,11 +37,11 @@
 
 		public function submission_url_get() {
 
-			// To be used after 1st August 2017... maybe?
+			// Old URL, used until December 2017
 			//
-			// return ($this->gateway_live ? 'https://transaction-engine.tax.service.gov/submission' : 'https://test-transaction-engine.tax.service.gov.uk/submission');
+			// return ($this->gateway_live ? 'https://secure.gateway.gov.uk/submission' : 'https://secure.dev.gateway.gov.uk/submission');
 
-			return ($this->gateway_live ? 'https://secure.gateway.gov.uk/submission' : 'https://secure.dev.gateway.gov.uk/submission');
+			return ($this->gateway_live ? 'https://transaction-engine.tax.service.gov.uk/submission' : 'https://test-transaction-engine.tax.service.gov.uk/submission');
 
 		}
 
