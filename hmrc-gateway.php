@@ -354,6 +354,7 @@
 			// Setup socket - similar to curl
 
 				$socket = new socket();
+				$socket->timeout_set(15);
 				$socket->exit_on_error_set(false);
 				$socket->header_set('Content-Type', 'text/xml; charset=' . head(config::get('output.charset')));
 
