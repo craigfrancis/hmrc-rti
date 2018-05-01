@@ -48,6 +48,8 @@
 
 		public function request_body_get_xml() {
 
+				// https://www.gov.uk/government/collections/real-time-information-online-internet-submissions-support-for-software-developers
+
 			if ($this->details['year'] == 2013) {
 				$namespace = 'http://www.govtalk.gov.uk/taxation/PAYE/RTI/FullPaymentSubmission/13-14/2';
 			} else if ($this->details['year'] == 2014) {
@@ -58,6 +60,8 @@
 				$namespace = 'http://www.govtalk.gov.uk/taxation/PAYE/RTI/FullPaymentSubmission/16-17/2';
 			} else if ($this->details['year'] == 2017) {
 				$namespace = 'http://www.govtalk.gov.uk/taxation/PAYE/RTI/FullPaymentSubmission/17-18/1';
+			} else if ($this->details['year'] == 2018) {
+				$namespace = 'http://www.govtalk.gov.uk/taxation/PAYE/RTI/FullPaymentSubmission/18-19/1';
 			} else {
 				exit_with_error('Namespace is unknown for year ' . $this->details['year']);
 			}
