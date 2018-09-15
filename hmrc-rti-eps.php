@@ -4,10 +4,6 @@
 
 		private $employees = array();
 
-		public function xsi_path_get() {
-			return 'artefacts/2013-14/EPS.xsd';
-		}
-
 		public function message_class_get() {
 			return 'HMRC-PAYE-RTI-EPS';
 		}

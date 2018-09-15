@@ -86,7 +86,7 @@
 			//--------------------------------------------------
 			// Send
 
-				$this->_send($message, $request->xsi_path_get());
+				$this->_send($message);
 
 			//--------------------------------------------------
 			// Response
@@ -270,7 +270,7 @@
 
 		}
 
-		private function _send($message, $xsi_path = NULL) {
+		private function _send($message) {
 
 			//--------------------------------------------------
 			// Message details
@@ -314,7 +314,7 @@
 			//--------------------------------------------------
 			// Validation
 
-				if ($xsi_path && false) { // TODO
+				if (false) { // TODO
 
 					$xsi_path = dirname(__FILE__) . '/' . $xsi_path;
 
