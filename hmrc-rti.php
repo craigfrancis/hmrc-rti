@@ -1,15 +1,8 @@
 <?php
 
-	class hmrc_rti extends check { // Employer Alignment Submission
+	class hmrc_rti extends check {
 
 		protected $details = array();
-
-		public function message_keys_get() {
-			return array(
-					'TaxOfficeNumber' => $this->details['tax_office_number'],
-					'TaxOfficeReference' => $this->details['tax_office_reference'],
-				);
-		}
 
 		public function details_set($details) {
 
@@ -19,6 +12,15 @@
 					'currency' => 'GBP',
 					'sender' => 'Employer',
 				), $details);
+
+		}
+
+		public function message_keys_get() {
+
+			return array(
+					'TaxOfficeNumber' => $this->details['tax_office_number'],
+					'TaxOfficeReference' => $this->details['tax_office_reference'],
+				);
 
 		}
 

@@ -1,7 +1,9 @@
 
-# HMRC RTI
+# HMRC API
 
-PHP to work with the HMRC API for Real Time Information (PAYE).
+PHP to work with the HMRC API.
+
+Currently includes Real Time Information (RTI) for PAYE, and VAT returns.
 
 You will need to register with HMRC to test:
 
