@@ -7,9 +7,18 @@
 		public function details_set($details) {
 
 			$this->details = array_merge(array(
-					'year' => NULL,
-					'month' => NULL,
-					'sender' => 'Company',
+					'year'                 => NULL,
+					'month'                => NULL,
+					'sender'               => 'Company',
+					'vat_due_output'       => 0,
+					'vat_due_acquisitions' => 0,
+					'vat_total'            => 0,
+					'vat_reclaimed'        => 0,
+					'vat_net'              => 0,
+					'total_sales'          => 0,
+					'total_purchases'      => 0,
+					'total_supplies'       => 0,
+					'total_acquisitions'   => 0,
 				), $details);
 
 		}
@@ -69,15 +78,15 @@
 			$xml = '
 					<IRenvelope xmlns="' . xml($namespace) . '">' . $this->request_header_get_xml() . '
 						<VATDeclarationRequest>
-							<VATDueOnOutputs>' . xml($this->details['vat_due_on_output']) . '</VATDueOnOutputs>
-							<VATDueOnECAcquisitions>0.50</VATDueOnECAcquisitions>
+							<VATDueOnOutputs>' . xml($this->details['vat_due_output']) . '</VATDueOnOutputs>
+							<VATDueOnECAcquisitions>' . xml($this->details['vat_due_acquisitions']) . '</VATDueOnECAcquisitions>
 							<TotalVAT>' . xml($this->details['vat_total']) . '</TotalVAT>
-							<VATReclaimedOnInputs>2.00</VATReclaimedOnInputs>
-							<NetVAT>0.00</NetVAT>
-							<NetSalesAndOutputs>20</NetSalesAndOutputs>
-							<NetPurchasesAndInputs>10</NetPurchasesAndInputs>
-							<NetECSupplies>10</NetECSupplies>
-							<NetECAcquisitions>5</NetECAcquisitions>
+							<VATReclaimedOnInputs>' . xml($this->details['vat_reclaimed']) . '</VATReclaimedOnInputs>
+							<NetVAT>' . xml($this->details['vat_net']) . '</NetVAT>
+							<NetSalesAndOutputs>' . xml($this->details['total_sales']) . '</NetSalesAndOutputs>
+							<NetPurchasesAndInputs>' . xml($this->details['total_purchases']) . '</NetPurchasesAndInputs>
+							<NetECSupplies>' . xml($this->details['total_supplies']) . '</NetECSupplies>
+							<NetECAcquisitions>' . xml($this->details['total_acquisitions']) . '</NetECAcquisitions>
 						</VATDeclarationRequest>
 					</IRenvelope>';
 
