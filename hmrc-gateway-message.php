@@ -72,7 +72,7 @@
 
 		public function xml_get() {
 
-			$sender_pass = base64_encode(md5(strtolower($this->sender_pass), true)); // MD5 is the only hasing option, and it needs to be lower cased first.
+			// $sender_pass = base64_encode(md5(strtolower($this->sender_pass), true)); // MD5 was the only hashing option, and it needed to be lower cased first.
 
 			$xml = '<?xml version="1.0"?>
 					<GovTalkMessage xmlns="http://www.govtalk.gov.uk/CM/envelope">
@@ -101,8 +101,8 @@
 								<IDAuthentication>
 									<SenderID>' . xml($this->sender_name) . '</SenderID>
 									<Authentication>
-										<Method>MD5</Method>
-										<Value>' . xml($sender_pass) . '</Value>
+										<Method>clear</Method>
+										<Value>' . xml($this->sender_pass) . '</Value>
 									</Authentication>
 								</IDAuthentication>
 								<EmailAddress>' . xml($this->sender_email) . '</EmailAddress>
