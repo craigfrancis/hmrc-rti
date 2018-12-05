@@ -9,7 +9,7 @@
 			$this->details = array_merge(array(
 					'vat_registration_number' => NULL,
 					'year'                    => NULL,
-					'quarter'                 => NULL,
+					'month'                   => NULL,
 					'sender'                  => 'Company', // Options include: Individual, Company, Agent, Bureau, Partnership, Trust, Employer, Government, Acting in Capacity, Other
 					'vat_due_output'          => 0, // Box 1 - VAT due in this period on sales and other outputs
 					'vat_due_acquisitions'    => 0, // Box 2 - VAT due in this period on acquisitions from other EC Member States
@@ -34,7 +34,7 @@
 
 		public function request_header_get_xml() {
 
-			$period_id = intval($this->details['year']) . '-' . str_pad(intval($this->details['quarter']), 2, '0', STR_PAD_LEFT);
+			$period_id = intval($this->details['year']) . '-' . str_pad(intval($this->details['month']), 2, '0', STR_PAD_LEFT);
 
 			$xml = '
 						<IRheader>
