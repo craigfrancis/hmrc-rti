@@ -69,20 +69,24 @@
 			$xml = '
 					<IRenvelope xmlns="' . xml($namespace) . '">' . $this->request_header_get_xml() . '
 						<VATDeclarationRequest>
-							<VATDueOnOutputs>' . xml($this->details['vat_due_output']) . '</VATDueOnOutputs>
-							<VATDueOnECAcquisitions>' . xml($this->details['vat_due_acquisitions']) . '</VATDueOnECAcquisitions>
-							<TotalVAT>' . xml($this->details['vat_total']) . '</TotalVAT>
-							<VATReclaimedOnInputs>' . xml($this->details['vat_reclaimed']) . '</VATReclaimedOnInputs>
-							<NetVAT>' . xml($this->details['vat_net']) . '</NetVAT>
-							<NetSalesAndOutputs>' . xml($this->details['total_sales']) . '</NetSalesAndOutputs>
-							<NetPurchasesAndInputs>' . xml($this->details['total_purchases']) . '</NetPurchasesAndInputs>
-							<NetECSupplies>' . xml($this->details['total_supplies']) . '</NetECSupplies>
-							<NetECAcquisitions>' . xml($this->details['total_acquisitions']) . '</NetECAcquisitions>
+							<VATDueOnOutputs>'        . xml($this->format_amount(2, $this->details['vat_due_output']))       . '</VATDueOnOutputs>
+							<VATDueOnECAcquisitions>' . xml($this->format_amount(2, $this->details['vat_due_acquisitions'])) . '</VATDueOnECAcquisitions>
+							<TotalVAT>'               . xml($this->format_amount(2, $this->details['vat_total']))            . '</TotalVAT>
+							<VATReclaimedOnInputs>'   . xml($this->format_amount(2, $this->details['vat_reclaimed']))        . '</VATReclaimedOnInputs>
+							<NetVAT>'                 . xml($this->format_amount(2, $this->details['vat_net']))              . '</NetVAT>
+							<NetSalesAndOutputs>'     . xml($this->format_amount(0, $this->details['total_sales']))          . '</NetSalesAndOutputs>
+							<NetPurchasesAndInputs>'  . xml($this->format_amount(0, $this->details['total_purchases']))      . '</NetPurchasesAndInputs>
+							<NetECSupplies>'          . xml($this->format_amount(0, $this->details['total_supplies']))       . '</NetECSupplies>
+							<NetECAcquisitions>'      . xml($this->format_amount(0, $this->details['total_acquisitions']))   . '</NetECAcquisitions>
 						</VATDeclarationRequest>
 					</IRenvelope>';
 
 			return $xml;
 
+		}
+
+		public function format_amount($decimals, $amount) {
+			return number_format($amount, $decimals, '.', '');
 		}
 
 	}
