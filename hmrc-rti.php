@@ -49,6 +49,12 @@
 
 		}
 
+		public function response_details($response_object) {
+
+			return array();
+
+		}
+
 	}
 
 ?>

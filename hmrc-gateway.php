@@ -14,6 +14,7 @@
 		private $sender_name = NULL;
 		private $sender_pass = NULL;
 		private $sender_email = NULL;
+		private $request_ref = NULL;
 		private $response_code = NULL;
 		private $response_string = NULL;
 		private $response_object = NULL;
@@ -71,6 +72,7 @@
 			// Setup message
 
 				$this->gateway_url = $this->submission_url_get();
+				$this->request_ref = $request;
 
 				$body_xml = $request->request_body_get_xml();
 
@@ -219,9 +221,15 @@
 							'timeout' => (time() + $interval),
 							'status' => NULL,
 							'response' => NULL,
+							'response_details' => NULL,
 						);
 
 				} else if ($this->response_qualifier == 'response') {
+
+					$details = array();
+					if ($this->request_ref) {
+						$details = $this->request_ref->response_details($this->response_object);
+					}
 
 					return array(
 							'class' => $this->message_class,
@@ -231,6 +239,7 @@
 							'timeout' => time(),
 							'status' => 'SUBMISSION_RESPONSE',
 							'response' => $this->response_string,
+							'response_details' => $details,
 						);
 
 				} else {

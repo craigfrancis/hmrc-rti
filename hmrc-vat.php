@@ -89,6 +89,14 @@
 			return number_format($amount, $decimals, '.', '');
 		}
 
+		public function response_details($response_object) {
+
+			$details = array(
+					'collection_date' => strval($response_object->Body->SuccessResponse->ResponseData->VATDeclarationResponse->Body->PaymentNotification->DirectDebitPaymentStatus->CollectionDate),
+				);
+
+		}
+
 	}
 
 ?>
