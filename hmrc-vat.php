@@ -85,7 +85,7 @@
 
 		}
 
-		public function format_amount($decimals, $amount) {
+		private function format_amount($decimals, $amount) {
 			return number_format($amount, $decimals, '.', '');
 		}
 
