@@ -91,7 +91,7 @@
 
 		public function response_details($response_object) {
 
-			$details = array(
+			return array(
 					'collection_date' => strval($response_object->Body->SuccessResponse->ResponseData->VATDeclarationResponse->Body->PaymentNotification->DirectDebitPaymentStatus->CollectionDate),
 				);
 
