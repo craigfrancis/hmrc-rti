@@ -360,12 +360,12 @@
 				}
 
 			//--------------------------------------------------
-			// Setup socket - similar to curl
+			// Setup connection - similar to curl
 
-				$socket = new socket();
-				$socket->timeout_set(15);
-				$socket->exit_on_error_set(false);
-				$socket->header_set('Content-Type', 'text/xml; charset=' . head(config::get('output.charset')));
+				$connection = new connection();
+				$connection->timeout_set(15);
+				$connection->exit_on_error_set(false);
+				$connection->header_set('Content-Type', 'text/xml; charset=' . head(config::get('output.charset')));
 
 			//--------------------------------------------------
 			// Send request
@@ -373,14 +373,14 @@
 					// header('Content-Type: text/xml; charset=UTF-8');
 					// exit($message_xml);
 
-				$send_result = $socket->post($this->gateway_url, $message_xml);
+				$send_result = $connection->post($this->gateway_url, $message_xml);
 
 				if (!$send_result) {
-					exit_with_error('Could not connect to HMRC', $socket->error_message_get() . "\n\n" . $socket->error_details_get());
+					exit_with_error('Could not connect to HMRC', $connection->error_message_get() . "\n\n" . $connection->error_details_get());
 				}
 
-				if ($socket->response_code_get() != 200) {
-					exit_with_error('Invalid HTTP response from HMRC', $socket->response_full_get());
+				if ($connection->response_code_get() != 200) {
+					exit_with_error('Invalid HTTP response from HMRC', $connection->response_full_get());
 				}
 
 			//--------------------------------------------------
@@ -400,7 +400,7 @@
 				// 	exit();
 				// }
 
-				$this->response_string = $socket->response_data_get();
+				$this->response_string = $connection->response_data_get();
 				$this->response_object = simplexml_load_string($this->response_string);
 				$this->response_debug = $this->gateway_url . "\n\n" . $message_xml . "\n\n" . $this->response_string;
 
