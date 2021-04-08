@@ -323,7 +323,7 @@
 			//--------------------------------------------------
 			// Validation
 
-				if (false) { // TODO
+				if (false) {
 
 					$xsi_path = dirname(__FILE__) . '/' . $xsi_path;
 
