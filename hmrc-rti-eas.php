@@ -2,7 +2,7 @@
 
 	class hmrc_rti_eas extends hmrc_rti { // Employer Alignment Submission
 
-		private $employees = array();
+		private $employees = [];
 
 		public function message_class_get() {
 			return 'HMRC-PAYE-RTI-EAS';

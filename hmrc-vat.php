@@ -2,7 +2,7 @@
 
 	class hmrc_vat extends check {
 
-		protected $details = array();
+		protected $details = [];
 
 		public function details_set($details) {
 

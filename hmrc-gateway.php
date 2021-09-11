@@ -149,7 +149,7 @@
 			//--------------------------------------------------
 			// Extract requests
 
-				$requests = array();
+				$requests = [];
 
 				if (isset($this->response_object->Body->StatusReport)) {
 					foreach ($this->response_object->Body->StatusReport->StatusRecord as $request) {
@@ -226,7 +226,7 @@
 
 				} else if ($this->response_qualifier == 'response') {
 
-					$details = array();
+					$details = [];
 					if ($this->request_ref) {
 						$details = $this->request_ref->response_details($this->response_object);
 					}

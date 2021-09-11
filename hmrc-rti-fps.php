@@ -2,7 +2,7 @@
 
 	class hmrc_rti_fps extends hmrc_rti { // Full Payment Submission
 
-		private $employees = array();
+		private $employees = [];
 
 		public function message_class_get() {
 			return 'HMRC-PAYE-RTI-FPS';

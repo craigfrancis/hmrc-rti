@@ -8,7 +8,7 @@
 		private $message_function = NULL;
 		private $message_transation = NULL;
 		private $message_correlation = NULL;
-		private $message_keys = array();
+		private $message_keys = [];
 		private $vendor_code = NULL;
 		private $vendor_name = NULL;
 		private $sender_name = NULL;

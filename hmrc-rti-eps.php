@@ -2,7 +2,7 @@
 
 	class hmrc_rti_eps extends hmrc_rti { // Employer Payment Summary - Send an EPS instead of an FPS if you've not paid any employees in a tax month.
 
-		private $employees = array();
+		private $employees = [];
 
 		public function message_class_get() {
 			return 'HMRC-PAYE-RTI-EPS';

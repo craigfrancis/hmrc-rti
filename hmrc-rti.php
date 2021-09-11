@@ -2,7 +2,7 @@
 
 	class hmrc_rti extends check {
 
-		protected $details = array();
+		protected $details = [];
 
 		public function details_set($details) {
 
@@ -51,7 +51,7 @@
 
 		public function response_details($response_object) {
 
-			return array();
+			return [];
 
 		}
 
