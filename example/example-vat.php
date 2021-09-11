@@ -54,9 +54,9 @@
 			WHERE
 				fv.id = ?';
 
-	$parameters = array();
-	$parameters[] = array('s', $hmrc_submission);
-	$parameters[] = array('i', $record_id);
+	$parameters = [];
+	$parameters[] = $hmrc_submission;
+	$parameters[] = intval($record_id);
 
 	$db->query($sql, $parameters);
 
@@ -106,10 +106,10 @@
 			WHERE
 				fv.id = ?';
 
-	$parameters = array();
-	$parameters[] = array('s', $hmrc_collection_date);
-	$parameters[] = array('s', $hmrc_response);
-	$parameters[] = array('i', $record_id);
+	$parameters = [];
+	$parameters[] = $hmrc_collection_date;
+	$parameters[] = $hmrc_response;
+	$parameters[] = intval($record_id);
 
 	$db->query($sql, $parameters);
 
