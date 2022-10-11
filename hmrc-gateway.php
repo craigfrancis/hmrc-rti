@@ -355,7 +355,10 @@
 					$log_id = $this->log_db->insert_id();
 
 					$log_where_sql = '
-						id = "' . $this->log_db->escape($log_id) . '"';
+						id = ?';
+
+					$log_parameters = [];
+					$log_parameters[] = intval($log_id);
 
 				}
 
@@ -412,7 +415,7 @@
 					$this->log_db->update($this->log_table_sql, array(
 							'response_xml' => $this->response_string,
 							'response_date' => date('Y-m-d H:i:s'),
-						), $log_where_sql);
+						), $log_where_sql, $log_parameters);
 
 				}
 
@@ -446,7 +449,7 @@
 							'response_qualifier' => $this->response_qualifier,
 							'response_function' => $this->response_function,
 							'response_correlation' => $this->response_correlation,
-						), $log_where_sql);
+						), $log_where_sql, $log_parameters);
 
 				}
 
