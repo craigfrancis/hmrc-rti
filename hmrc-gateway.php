@@ -33,7 +33,7 @@
 
 		public function log_table_set($db, $table) {
 			$this->log_db = $db;
-			$this->log_table_sql = $db->escape_table($table);
+			$this->log_table_sql = $table;
 		}
 
 		public function submission_url_get() {
