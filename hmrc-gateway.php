@@ -277,6 +277,10 @@
 
 		}
 
+		public function response_debug_get() {
+			return $this->response_debug;
+		}
+
 		private function _send($message) {
 
 			//--------------------------------------------------
