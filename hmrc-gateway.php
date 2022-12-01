@@ -37,13 +37,11 @@
 		}
 
 		public function submission_url_get() {
-
-			// Old URL, used until December 2017
-			//
-			// return ($this->gateway_live ? 'https://secure.gateway.gov.uk/submission' : 'https://secure.dev.gateway.gov.uk/submission');
-
 			return ($this->gateway_live ? 'https://transaction-engine.tax.service.gov.uk/submission' : 'https://test-transaction-engine.tax.service.gov.uk/submission');
+		}
 
+		public function poll_url_get() {
+			return ($this->gateway_live ? 'https://transaction-engine.tax.service.gov.uk/poll' : 'https://test-transaction-engine.tax.service.gov.uk/poll');
 		}
 
 		public function vendor_set($vendor_code, $vendor_name) {
@@ -189,7 +187,7 @@
 			// Setup message
 
 				$this->message_class = $request['class'];
-				$this->gateway_url = $request['endpoint'];
+				$this->gateway_url = $this->poll_url_get(); // $request['endpoint'] - Does not work with the values from request_list()
 
 				$message = new hmrc_gateway_message();
 				$message->vendor_set($this->vendor_code, $this->vendor_name);
