@@ -66,6 +66,8 @@
 				$namespace = 'http://www.govtalk.gov.uk/taxation/PAYE/RTI/FullPaymentSubmission/21-22/1';
 			} else if ($this->details['year'] == 2022) {
 				$namespace = 'http://www.govtalk.gov.uk/taxation/PAYE/RTI/FullPaymentSubmission/22-23/1';
+			} else if ($this->details['year'] == 2023) {
+				$namespace = 'http://www.govtalk.gov.uk/taxation/PAYE/RTI/FullPaymentSubmission/23-24/1';
 			} else {
 				exit_with_error('Namespace is unknown for year ' . $this->details['year']);
 			}
