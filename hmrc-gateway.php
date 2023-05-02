@@ -173,7 +173,7 @@
 
 		}
 
-		public function request_poll($request) {
+		public function request_poll($request, $return_error = false) {
 
 			//--------------------------------------------------
 			// Honour timeout
@@ -205,7 +205,15 @@
 
 				if ($this->response_qualifier == 'error') {
 
-					exit_with_error('Error from gateway "' . $this->response_object->Body->ErrorResponse->Error->Text . '"', $this->response_debug);
+					if ($return_error && isset($this->response_object->Body->ErrorResponse->Error->Text) && isset($this->response_object->Header->MessageDetails->CorrelationID)) {
+
+						return strval($this->response_object->Body->ErrorResponse->Error->Text) . ' (' . strval($this->response_object->Header->MessageDetails->CorrelationID) . ')';
+
+					} else {
+
+						exit_with_error('Error from gateway "' . $this->response_object->Body->ErrorResponse->Error->Text . '"', $this->response_debug);
+
+					}
 
 				} else if ($this->response_qualifier == 'acknowledgement') {
 
