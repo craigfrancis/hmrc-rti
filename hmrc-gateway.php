@@ -165,7 +165,7 @@
 					}
 				} else {
 
-					exit_with_error('Invalid response from HMRC', $this->response_debug);
+					exit_with_error('Invalid response from HMRC (listing)', debug_dump($message_class) . "\n\n-----\n\n" . $this->response_debug);
 
 				}
 
