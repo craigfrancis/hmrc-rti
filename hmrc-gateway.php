@@ -354,13 +354,13 @@
 
 				if ($this->log_table_sql) {
 
-					$this->log_db->insert($this->log_table_sql, array(
-							'request_url' => $this->gateway_url,
-							'request_xml' => $message_xml,
+					$this->log_db->insert($this->log_table_sql, [
+							'request_url'         => $this->gateway_url,
+							'request_xml'         => $message_xml,
 							'request_correlation' => strval($message_correlation), // Not NULL
-							'request_irmark' => strval($message_irmark),
-							'request_date' => date('Y-m-d H:i:s'),
-						));
+							'request_irmark'      => strval($message_irmark),
+							'request_date'        => date('Y-m-d H:i:s'),
+						]);
 
 					$log_id = $this->log_db->insert_id();
 
@@ -422,10 +422,10 @@
 
 				if ($this->log_table_sql) {
 
-					$this->log_db->update($this->log_table_sql, array(
-							'response_xml' => $this->response_string,
+					$this->log_db->update($this->log_table_sql, [
+							'response_xml'  => $this->response_string,
 							'response_date' => date('Y-m-d H:i:s'),
-						), $log_where_sql, $log_parameters);
+						], $log_where_sql, $log_parameters);
 
 				}
 
@@ -455,11 +455,11 @@
 
 				if ($this->log_table_sql) {
 
-					$this->log_db->update($this->log_table_sql, array(
-							'response_qualifier' => $this->response_qualifier,
-							'response_function' => $this->response_function,
+					$this->log_db->update($this->log_table_sql, [
+							'response_qualifier'   => $this->response_qualifier,
+							'response_function'    => $this->response_function,
 							'response_correlation' => $this->response_correlation,
-						), $log_where_sql, $log_parameters);
+						], $log_where_sql, $log_parameters);
 
 				}
 
