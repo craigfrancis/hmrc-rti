@@ -95,15 +95,15 @@
 
 					$interval = strval($this->response_object->Header->MessageDetails->ResponseEndPoint['PollInterval']);
 
-					return array(
-							'class' => $this->message_class,
+					return [
+							'class'       => $this->message_class,
 							'correlation' => $this->response_correlation,
 							'transaction' => $this->message_transation, // Node is blank in response for some reason.
-							'endpoint' => strval($this->response_object->Header->MessageDetails->ResponseEndPoint),
-							'timeout' => (time() + $interval),
-							'status' => NULL,
-							'response' => NULL,
-						);
+							'endpoint'    => strval($this->response_object->Header->MessageDetails->ResponseEndPoint),
+							'timeout'     => (time() + $interval),
+							'status'      => NULL,
+							'response'    => NULL,
+						];
 
 				} else {
 
@@ -152,15 +152,15 @@
 				if (isset($this->response_object->Body->StatusReport)) {
 					foreach ($this->response_object->Body->StatusReport->StatusRecord as $request) {
 
-						$requests[] = array(
-								'class' => $this->message_class,
+						$requests[] = [
+								'class'       => $this->message_class,
 								'correlation' => strval($request->CorrelationID),
 								'transaction' => strval($request->TransactionID),
-								'endpoint' => strval($this->response_object->Header->MessageDetails->ResponseEndPoint),
-								'timeout' => time(),
-								'status' => strval($request->Status),
-								'response' => NULL,
-							);
+								'endpoint'    => strval($this->response_object->Header->MessageDetails->ResponseEndPoint),
+								'timeout'     => time(),
+								'status'      => strval($request->Status),
+								'response'    => NULL,
+							];
 
 					}
 				} else {
@@ -219,16 +219,16 @@
 
 					$interval = strval($this->response_object->Header->MessageDetails->ResponseEndPoint['PollInterval']);
 
-					return array(
-							'class' => $this->message_class,
-							'correlation' => $request['correlation'],
-							'transaction' => strval($this->response_object->Header->MessageDetails->TransactionID),
-							'endpoint' => strval($this->response_object->Header->MessageDetails->ResponseEndPoint),
-							'timeout' => (time() + $interval),
-							'status' => NULL,
-							'response' => NULL,
+					return [
+							'class'            => $this->message_class,
+							'correlation'      => $request['correlation'],
+							'transaction'      => strval($this->response_object->Header->MessageDetails->TransactionID),
+							'endpoint'         => strval($this->response_object->Header->MessageDetails->ResponseEndPoint),
+							'timeout'          => (time() + $interval),
+							'status'           => NULL,
+							'response'         => NULL,
 							'response_details' => NULL,
-						);
+						];
 
 				} else if ($this->response_qualifier == 'response') {
 
@@ -237,16 +237,16 @@
 						$details = $this->request_ref->response_details($this->response_object);
 					}
 
-					return array(
-							'class' => $this->message_class,
-							'correlation' => $request['correlation'],
-							'transaction' => strval($this->response_object->Header->MessageDetails->TransactionID),
-							'endpoint' => strval($this->response_object->Header->MessageDetails->ResponseEndPoint),
-							'timeout' => time(),
-							'status' => 'SUBMISSION_RESPONSE',
-							'response' => $this->response_string,
+					return [
+							'class'            => $this->message_class,
+							'correlation'      => $request['correlation'],
+							'transaction'      => strval($this->response_object->Header->MessageDetails->TransactionID),
+							'endpoint'         => strval($this->response_object->Header->MessageDetails->ResponseEndPoint),
+							'timeout'          => time(),
+							'status'           => 'SUBMISSION_RESPONSE',
+							'response'         => $this->response_string,
 							'response_details' => $details,
-						);
+						];
 
 				} else {
 
