@@ -35,7 +35,8 @@
 
 	$hmrc_gateway = new hmrc_gateway();
 	$hmrc_gateway->live_set(false, true);
-	$hmrc_gateway->log_table_set($db, DB_PREFIX . 'table_name');
+	$hmrc_gateway->log_array_enable();
+	// $hmrc_gateway->log_table_set($db, DB_PREFIX . 'table_name');
 	$hmrc_gateway->vendor_set('0000', 'Product Name');
 	$hmrc_gateway->sender_set($config_sender_name, $config_sender_pass, $config_sender_email);
 
@@ -205,5 +206,14 @@
 	// 		'correlation' => 'DF64ED198BEB43178A0C6A3CCE7D389C',
 	// 	]);
 
+//--------------------------------------------------
+// Show log
+
+	foreach ($hmrc_gateway->log_array_get() as $log) {
+		$log['request_xml']  = str_replace("\n", "\n        ", $log['request_xml']);
+		$log['response_xml'] = str_replace("\n", "\n        ", $log['response_xml']);
+		echo debug_dump($log);
+	}
+	exit();
 
 ?>

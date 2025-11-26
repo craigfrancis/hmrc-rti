@@ -4,6 +4,7 @@
 
 		private $log_db = NULL;
 		private $log_table_sql = NULL;
+		private $log_array = NULL;
 		private $gateway_live = false;
 		private $gateway_test = false; // aka "Test in live"
 		private $gateway_url = NULL;
@@ -34,6 +35,20 @@
 		public function log_table_set($db, $table) {
 			$this->log_db = $db;
 			$this->log_table_sql = $table;
+		}
+
+		public function log_array_enable() {
+			$this->log_array = [];
+		}
+
+		public function log_array_get($reset = true) {
+			if ($reset) {
+				$log = $this->log_array;
+				$this->log_array = [];
+				return $log;
+			} else {
+				return $this->log_array;
+			}
 		}
 
 		public function submission_url_get() {
@@ -352,6 +367,8 @@
 			//--------------------------------------------------
 			// Log create
 
+				$log_request_sent = date('Y-m-d H:i:s');
+
 				if ($this->log_table_sql) {
 
 					$this->log_db->insert($this->log_table_sql, [
@@ -359,7 +376,7 @@
 							'request_xml'         => $message_xml,
 							'request_correlation' => strval($message_correlation), // Not NULL
 							'request_irmark'      => strval($message_irmark),
-							'request_date'        => date('Y-m-d H:i:s'),
+							'request_date'        => $log_request_sent,
 						]);
 
 					$log_id = $this->log_db->insert_id();
@@ -420,11 +437,13 @@
 			//--------------------------------------------------
 			// Update log
 
+				$response_date = date('Y-m-d H:i:s');
+
 				if ($this->log_table_sql) {
 
 					$this->log_db->update($this->log_table_sql, [
 							'response_xml'  => $this->response_string,
-							'response_date' => date('Y-m-d H:i:s'),
+							'response_date' => $response_date,
 						], $log_where_sql, $log_parameters);
 
 				}
@@ -460,6 +479,23 @@
 							'response_function'    => $this->response_function,
 							'response_correlation' => $this->response_correlation,
 						], $log_where_sql, $log_parameters);
+
+				}
+
+				if ($this->log_array !== NULL) {
+
+					$this->log_array[] = [
+							'request_url'          => $this->gateway_url,
+							'request_xml'          => $message_xml,
+							'request_correlation'  => strval($message_correlation), // Not NULL
+							'request_irmark'       => strval($message_irmark),
+							'request_date'         => $log_request_sent,
+							'response_xml'         => $this->response_string,
+							'response_date'        => $response_date,
+							'response_qualifier'   => $this->response_qualifier,
+							'response_function'    => $this->response_function,
+							'response_correlation' => $this->response_correlation,
+						];
 
 				}
 
