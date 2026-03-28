@@ -406,11 +406,11 @@
 				$send_result = $connection->post($this->gateway_url, $message_xml);
 
 				if (!$send_result) {
-					exit_with_error('Could not connect to HMRC', $connection->error_message_get() . "\n\n" . $connection->error_details_get());
+					exit_with_error('Could not connect to HMRC', $connection->error_info_get());
 				}
 
 				if ($connection->response_code_get() != 200) {
-					exit_with_error('Invalid HTTP response from HMRC', $connection->response_full_get());
+					exit_with_error('Invalid HTTP response from HMRC', $connection->error_info_get());
 				}
 
 			//--------------------------------------------------
