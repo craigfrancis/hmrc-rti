@@ -90,7 +90,7 @@
 			'pay_id'     => '123-A02',    // Payroll ID
 
 			'payment_frequency' => 'M1',         // Pay frequency (e.g. W1 = Weekly, W2 = Fortnightly, W4 = 4 Weekly, M1 = Calendar Monthly, etc)
-			'payment_date'      => '2025-05-31', // Payment date
+			'payment_date'      => '2026-05-31', // Payment date
 			'payment_month'     => '2',          // Monthly period number
 			'payment_periods'   => '1',          // Number of earnings periods covered by payment
 			'payment_hours'     => '37.5',       // Number of normal hours worked (approximately)
@@ -156,7 +156,7 @@
 	$hmrc_rti = new hmrc_rti_fps(); // Full Payment Submission
 
 	$hmrc_rti->details_set([
-			'year'                      => 2025,
+			'year'                      => 2026,
 			'final'                     => $final,
 			'tax_office_number'         => $config_tax_office_number,
 			'tax_office_reference'      => $config_tax_office_reference,
